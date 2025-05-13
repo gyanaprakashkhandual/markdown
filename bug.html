@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Case & Bug Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #ecf0f1;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover {
+            color: #bdc3c7;
+        }
+        
+        .tab-btn.active {
+            color: #3498db;
+            border-bottom-color: #3498db;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn i {
+            font-size: 12px;
+        }
+        
+        .btn.primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn.primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn.secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn.secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .btn.danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn.danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn.success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn.success:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .search {
+            position: relative;
+            min-width: 250px;
+        }
+        
+        .search input {
+            width: 100%;
+            padding: 8px 30px 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status.passed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.failed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .priority {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .priority.high {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .priority.medium {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .priority.low {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .severity.critical {
+            background-color: #721c24;
+            color: white;
+        }
+        
+        .severity.major {
+            background-color: #856404;
+            color: white;
+        }
+        
+        .severity.minor {
+            background-color: #155724;
+            color: white;
+        }
+        
+        /* Hidden Utility Class */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                text-align: left;
+            }
+            
+            .tab-btn.active {
+                border-bottom: none;
+                border-left-color: #3498db;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Test Case & Bug Management</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="test-cases">Test Cases</button>
+                <button class="tab-btn" data-tab="bugs">Bugs</button>
+                <button class="tab-btn" data-tab="reports">Reports</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Test Cases Tab -->
+            <div id="test-cases" class="tab-content active">
+                <div class="action-bar">
+                    <button id="add-test-case" class="btn primary"><i class="fas fa-plus"></i> Add Test Case</button>
+                    <div class="search">
+                        <input type="text" id="test-case-search" placeholder="Search test cases...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="test-case-form hidden">
+                    <h3>Add New Test Case</h3>
+                    <form id="test-case-form">
+                        <input type="hidden" id="test-case-id">
+                        <div class="form-group">
+                            <label for="test-case-title">Title</label>
+                            <input type="text" id="test-case-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-case-description">Description</label>
+                            <textarea id="test-case-description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-case-steps">Steps</label>
+                            <textarea id="test-case-steps" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-case-expected">Expected Result</label>
+                            <textarea id="test-case-expected" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-case-priority">Priority</label>
+                            <select id="test-case-priority" required>
+                                <option value="high">High</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-test-case" class="btn secondary">Cancel</button>
+                            <button type="submit" class="btn primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <table id="test-cases-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="test-cases-list">
+                        <!-- Test cases will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bugs Tab -->
+            <div id="bugs" class="tab-content">
+                <div class="action-bar">
+                    <button id="add-bug" class="btn primary"><i class="fas fa-plus"></i> Add Bug</button>
+                    <div class="search">
+                        <input type="text" id="bug-search" placeholder="Search bugs...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="bug-form hidden">
+                    <h3>Add New Bug</h3>
+                    <form id="bug-form">
+                        <input type="hidden" id="bug-id">
+                        <div class="form-group">
+                            <label for="bug-title">Title</label>
+                            <input type="text" id="bug-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bug-description">Description</label>
+                            <textarea id="bug-description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bug-steps">Steps to Reproduce</label>
+                            <textarea id="bug-steps" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bug-severity">Severity</label>
+                            <select id="bug-severity" required>
+                                <option value="critical">Critical</option>
+                                <option value="major">Major</option>
+                                <option value="minor" selected>Minor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bug-status">Status</label>
+                            <select id="bug-status" required>
+                                <option value="open" selected>Open</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bug-test-case">Related Test Case (optional)</label>
+                            <select id="bug-test-case">
+                                <option value="">None</option>
+                                <!-- Test cases will be added here dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-bug" class="btn secondary">Cancel</button>
+                            <button type="submit" class="btn primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <table id="bugs-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bugs-list">
+                        <!-- Bugs will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <div class="action-bar">
+                    <div class="search">
+                        <input type="text" id="report-search" placeholder="Search reports...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="report-cards">
+                    <div class="report-card">
+                        <h3>Test Case Statistics</h3>
+                        <div id="test-case-stats" style="height: 300px;">
+                            <!-- Chart will be rendered here -->
+                            <canvas id="testCaseChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3>Bug Statistics</h3>
+                        <div id="bug-stats" style="height: 300px;">
+                            <!-- Chart will be rendered here -->
+                            <canvas id="bugChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Test Case Elements
+            const addTestCaseBtn = document.getElementById('add-test-case');
+            const testCaseForm = document.querySelector('.test-case-form');
+            const testCaseFormElement = document.getElementById('test-case-form');
+            const cancelTestCaseBtn = document.getElementById('cancel-test-case');
+            const testCasesList = document.getElementById('test-cases-list');
+            const testCaseSearch = document.getElementById('test-case-search');
+            
+            // Bug Elements
+            const addBugBtn = document.getElementById('add-bug');
+            const bugForm = document.querySelector('.bug-form');
+            const bugFormElement = document.getElementById('bug-form');
+            const cancelBugBtn = document.getElementById('cancel-bug');
+            const bugsList = document.getElementById('bugs-list');
+            const bugSearch = document.getElementById('bug-search');
+            const bugTestCaseSelect = document.getElementById('bug-test-case');
+            
+            // Data
+            let testCases = JSON.parse(localStorage.getItem('testCases')) || [];
+            let bugs = JSON.parse(localStorage.getItem('bugs')) || [];
+            let editMode = false;
+            let currentTestCaseId = null;
+            let currentBugId = null;
+            
+            // Initialize the app
+            init();
+            
+            // Tab Switching
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Update active tab content
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // If reports tab is clicked, update charts
+                    if (tabId === 'reports') {
+                        updateCharts();
+                    }
+                });
+            });
+            
+            // Test Case Event Listeners
+            addTestCaseBtn.addEventListener('click', showTestCaseForm);
+            cancelTestCaseBtn.addEventListener('click', hideTestCaseForm);
+            testCaseFormElement.addEventListener('submit', handleTestCaseSubmit);
+            testCaseSearch.addEventListener('input', filterTestCases);
+            
+            // Bug Event Listeners
+            addBugBtn.addEventListener('click', showBugForm);
+            cancelBugBtn.addEventListener('click', hideBugForm);
+            bugFormElement.addEventListener('submit', handleBugSubmit);
+            bugSearch.addEventListener('input', filterBugs);
+            
+            // Initialize the application
+            function init() {
+                renderTestCases();
+                renderBugs();
+                populateTestCaseDropdown();
+                
+                // Initialize charts if Chart.js is loaded
+                if (typeof Chart !== 'undefined') {
+                    initializeCharts();
+                }
+            }
+            
+            // Test Case Functions
+            function showTestCaseForm() {
+                testCaseForm.classList.remove('hidden');
+                addTestCaseBtn.classList.add('hidden');
+                editMode = false;
+                currentTestCaseId = null;
+                testCaseFormElement.reset();
+                document.getElementById('test-case-id').value = '';
+            }
+            
+            function hideTestCaseForm() {
+                testCaseForm.classList.add('hidden');
+                addTestCaseBtn.classList.remove('hidden');
+            }
+            
+            function handleTestCaseSubmit(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('test-case-id').value || generateId();
+                const title = document.getElementById('test-case-title').value;
+                const description = document.getElementById('test-case-description').value;
+                const steps = document.getElementById('test-case-steps').value;
+                const expected = document.getElementById('test-case-expected').value;
+                const priority = document.getElementById('test-case-priority').value;
+                const status = 'pending'; // Default status
+                
+                const testCase = {
+                    id,
+                    title,
+                    description,
+                    steps,
+                    expected,
+                    priority,
+                    status,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                if (editMode) {
+                    // Update existing test case
+                    const index = testCases.findIndex(tc => tc.id === currentTestCaseId);
+                    if (index !== -1) {
+                        testCases[index] = {
+                            ...testCases[index],
+                            ...testCase,
+                            updatedAt: new Date().toISOString()
+                        };
+                    }
+                } else {
+                    // Add new test case
+                    testCases.push(testCase);
+                }
+                
+                // Save to local storage
+                localStorage.setItem('testCases', JSON.stringify(testCases));
+                
+                // Update UI
+                renderTestCases();
+                populateTestCaseDropdown();
+                hideTestCaseForm();
+                
+                // Reset form
+                testCaseFormElement.reset();
+            }
+            
+            function renderTestCases() {
+                testCasesList.innerHTML = '';
+                
+                if (testCases.length === 0) {
+                    testCasesList.innerHTML = '<tr><td colspan="5" style="text-align: center;">No test cases found. Add one to get started.</td></tr>';
+                    return;
+                }
+                
+                testCases.forEach(testCase => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${testCase.id}</td>
+                        <td>${testCase.title}</td>
+                        <td><span class="priority ${testCase.priority}">${testCase.priority}</span></td>
+                        <td><span class="status ${testCase.status}">${testCase.status}</span></td>
+                        <td>
+                            <button class="btn primary edit-test-case" data-id="${testCase.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn danger delete-test-case" data-id="${testCase.id}"><i class="fas fa-trash"></i></button>
+                            <button class="btn success execute-test-case" data-id="${testCase.id}"><i class="fas fa-play"></i></button>
+                        </td>
+                    `;
+                    testCasesList.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('.edit-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => editTestCase(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.delete-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => deleteTestCase(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.execute-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => executeTestCase(btn.getAttribute('data-id')));
+                });
+            }
+            
+            function editTestCase(id) {
+                const testCase = testCases.find(tc => tc.id === id);
+                if (testCase) {
+                    showTestCaseForm();
+                    editMode = true;
+                    currentTestCaseId = id;
+                    
+                    document.getElementById('test-case-id').value = testCase.id;
+                    document.getElementById('test-case-title').value = testCase.title;
+                    document.getElementById('test-case-description').value = testCase.description;
+                    document.getElementById('test-case-steps').value = testCase.steps;
+                    document.getElementById('test-case-expected').value = testCase.expected;
+                    document.getElementById('test-case-priority').value = testCase.priority;
+                }
+            }
+            
+            function deleteTestCase(id) {
+                if (confirm('Are you sure you want to delete this test case?')) {
+                    testCases = testCases.filter(tc => tc.id !== id);
+                    localStorage.setItem('testCases', JSON.stringify(testCases));
+                    renderTestCases();
+                    populateTestCaseDropdown();
+                    
+                    // Also remove any bugs associated with this test case
+                    bugs = bugs.filter(bug => bug.testCaseId !== id);
+                    localStorage.setItem('bugs', JSON.stringify(bugs));
+                    renderBugs();
+                }
+            }
+            
+            function executeTestCase(id) {
+                const testCase = testCases.find(tc => tc.id === id);
+                if (testCase) {
+                    const result = prompt(`Execute test case "${testCase.title}". Enter result (pass/fail):`);
+                    if (result && ['pass', 'fail'].includes(result.toLowerCase())) {
+                        const index = testCases.findIndex(tc => tc.id === id);
+                        if (index !== -1) {
+                            testCases[index].status = result.toLowerCase() === 'pass' ? 'passed' : 'failed';
+                            testCases[index].updatedAt = new Date().toISOString();
+                            localStorage.setItem('testCases', JSON.stringify(testCases));
+                            renderTestCases();
+                            
+                            if (result.toLowerCase() === 'fail') {
+                                // Prompt to create a bug
+                                if (confirm('Test case failed. Would you like to create a bug report?')) {
+                                    showBugForm();
+                                    document.getElementById('bug-title').value = `Failed: ${testCase.title}`;
+                                    document.getElementById('bug-description').value = `Test case "${testCase.title}" failed during execution.\n\nExpected: ${testCase.expected}\n\nActual: [Describe actual behavior here]`;
+                                    document.getElementById('bug-steps').value = testCase.steps;
+                                    document.getElementById('bug-test-case').value = testCase.id;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            function filterTestCases() {
+                const searchTerm = testCaseSearch.value.toLowerCase();
+                const filteredCases = testCases.filter(testCase => 
+                    testCase.title.toLowerCase().includes(searchTerm) || 
+                    testCase.description.toLowerCase().includes(searchTerm) ||
+                    testCase.id.toLowerCase().includes(searchTerm)
+                );
+                
+                testCasesList.innerHTML = '';
+                
+                if (filteredCases.length === 0) {
+                    testCasesList.innerHTML = '<tr><td colspan="5" style="text-align: center;">No matching test cases found.</td></tr>';
+                    return;
+                }
+                
+                filteredCases.forEach(testCase => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${testCase.id}</td>
+                        <td>${testCase.title}</td>
+                        <td><span class="priority ${testCase.priority}">${testCase.priority}</span></td>
+                        <td><span class="status ${testCase.status}">${testCase.status}</span></td>
+                        <td>
+                            <button class="btn primary edit-test-case" data-id="${testCase.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn danger delete-test-case" data-id="${testCase.id}"><i class="fas fa-trash"></i></button>
+                            <button class="btn success execute-test-case" data-id="${testCase.id}"><i class="fas fa-play"></i></button>
+                        </td>
+                    `;
+                    testCasesList.appendChild(row);
+                });
+                
+                // Reattach event listeners
+                document.querySelectorAll('.edit-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => editTestCase(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.delete-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => deleteTestCase(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.execute-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => executeTestCase(btn.getAttribute('data-id')));
+                });
+            }
+            
+            // Bug Functions
+            function showBugForm() {
+                bugForm.classList.remove('hidden');
+                addBugBtn.classList.add('hidden');
+                editMode = false;
+                currentBugId = null;
+                bugFormElement.reset();
+                document.getElementById('bug-id').value = '';
+            }
+            
+            function hideBugForm() {
+                bugForm.classList.add('hidden');
+                addBugBtn.classList.remove('hidden');
+            }
+            
+            function handleBugSubmit(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('bug-id').value || generateId();
+                const title = document.getElementById('bug-title').value;
+                const description = document.getElementById('bug-description').value;
+                const steps = document.getElementById('bug-steps').value;
+                const severity = document.getElementById('bug-severity').value;
+                const status = document.getElementById('bug-status').value;
+                const testCaseId = document.getElementById('bug-test-case').value || null;
+                
+                const bug = {
+                    id,
+                    title,
+                    description,
+                    steps,
+                    severity,
+                    status,
+                    testCaseId,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                if (editMode) {
+                    // Update existing bug
+                    const index = bugs.findIndex(b => b.id === currentBugId);
+                    if (index !== -1) {
+                        bugs[index] = {
+                            ...bugs[index],
+                            ...bug,
+                            updatedAt: new Date().toISOString()
+                        };
+                    }
+                } else {
+                    // Add new bug
+                    bugs.push(bug);
+                }
+                
+                // Save to local storage
+                localStorage.setItem('bugs', JSON.stringify(bugs));
+                
+                // Update UI
+                renderBugs();
+                hideBugForm();
+                
+                // Reset form
+                bugFormElement.reset();
+            }
+            
+            function renderBugs() {
+                bugsList.innerHTML = '';
+                
+                if (bugs.length === 0) {
+                    bugsList.innerHTML = '<tr><td colspan="5" style="text-align: center;">No bugs found. Add one to get started.</td></tr>';
+                    return;
+                }
+                
+                bugs.forEach(bug => {
+                    const relatedTestCase = bug.testCaseId ? testCases.find(tc => tc.id === bug.testCaseId) : null;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${bug.id}</td>
+                        <td>${bug.title}</td>
+                        <td><span class="severity ${bug.severity}">${bug.severity}</span></td>
+                        <td><span class="status ${bug.status}">${bug.status}</span></td>
+                        <td>
+                            <button class="btn primary edit-bug" data-id="${bug.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn danger delete-bug" data-id="${bug.id}"><i class="fas fa-trash"></i></button>
+                            ${relatedTestCase ? `<button class="btn secondary view-test-case" data-id="${relatedTestCase.id}"><i class="fas fa-eye"></i></button>` : ''}
+                        </td>
+                    `;
+                    bugsList.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('.edit-bug').forEach(btn => {
+                    btn.addEventListener('click', () => editBug(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.delete-bug').forEach(btn => {
+                    btn.addEventListener('click', () => deleteBug(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.view-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const testCaseId = btn.getAttribute('data-id');
+                        // Switch to test cases tab and scroll to the test case
+                        document.querySelector('.tab-btn[data-tab="test-cases"]').click();
+                        // You could add highlighting or other visual indication here
+                    });
+                });
+            }
+            
+            function editBug(id) {
+                const bug = bugs.find(b => b.id === id);
+                if (bug) {
+                    showBugForm();
+                    editMode = true;
+                    currentBugId = id;
+                    
+                    document.getElementById('bug-id').value = bug.id;
+                    document.getElementById('bug-title').value = bug.title;
+                    document.getElementById('bug-description').value = bug.description;
+                    document.getElementById('bug-steps').value = bug.steps;
+                    document.getElementById('bug-severity').value = bug.severity;
+                    document.getElementById('bug-status').value = bug.status;
+                    document.getElementById('bug-test-case').value = bug.testCaseId || '';
+                }
+            }
+            
+            function deleteBug(id) {
+                if (confirm('Are you sure you want to delete this bug?')) {
+                    bugs = bugs.filter(b => b.id !== id);
+                    localStorage.setItem('bugs', JSON.stringify(bugs));
+                    renderBugs();
+                }
+            }
+            
+            function filterBugs() {
+                const searchTerm = bugSearch.value.toLowerCase();
+                const filteredBugs = bugs.filter(bug => 
+                    bug.title.toLowerCase().includes(searchTerm) || 
+                    bug.description.toLowerCase().includes(searchTerm) ||
+                    bug.id.toLowerCase().includes(searchTerm)
+                );
+                
+                bugsList.innerHTML = '';
+                
+                if (filteredBugs.length === 0) {
+                    bugsList.innerHTML = '<tr><td colspan="5" style="text-align: center;">No matching bugs found.</td></tr>';
+                    return;
+                }
+                
+                filteredBugs.forEach(bug => {
+                    const relatedTestCase = bug.testCaseId ? testCases.find(tc => tc.id === bug.testCaseId) : null;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${bug.id}</td>
+                        <td>${bug.title}</td>
+                        <td><span class="severity ${bug.severity}">${bug.severity}</span></td>
+                        <td><span class="status ${bug.status}">${bug.status}</span></td>
+                        <td>
+                            <button class="btn primary edit-bug" data-id="${bug.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn danger delete-bug" data-id="${bug.id}"><i class="fas fa-trash"></i></button>
+                            ${relatedTestCase ? `<button class="btn secondary view-test-case" data-id="${relatedTestCase.id}"><i class="fas fa-eye"></i></button>` : ''}
+                        </td>
+                    `;
+                    bugsList.appendChild(row);
+                });
+                
+                // Reattach event listeners
+                document.querySelectorAll('.edit-bug').forEach(btn => {
+                    btn.addEventListener('click', () => editBug(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.delete-bug').forEach(btn => {
+                    btn.addEventListener('click', () => deleteBug(btn.getAttribute('data-id')));
+                });
+                
+                document.querySelectorAll('.view-test-case').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const testCaseId = btn.getAttribute('data-id');
+                        document.querySelector('.tab-btn[data-tab="test-cases"]').click();
+                    });
+                });
+            }
+            
+            function populateTestCaseDropdown() {
+                bugTestCaseSelect.innerHTML = '<option value="">None</option>';
+                testCases.forEach(testCase => {
+                    const option = document.createElement('option');
+                    option.value = testCase.id;
+                    option.textContent = `${testCase.id} - ${testCase.title}`;
+                    bugTestCaseSelect.appendChild(option);
+                });
+            }
+            
+            // Report Functions
+            function initializeCharts() {
+                // Test Case Chart
+                const testCaseCtx = document.getElementById('testCaseChart').getContext('2d');
+                window.testCaseChart = new Chart(testCaseCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Passed', 'Failed', 'Pending'],
+                        datasets: [{
+                            data: [0, 0, 0],
+                            backgroundColor: [
+                                '#2ecc71',
+                                '#e74c3c',
+                                '#f39c12'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                // Bug Chart
+                const bugCtx = document.getElementById('bugChart').getContext('2d');
+                window.bugChart = new Chart(bugCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Critical', 'Major', 'Minor'],
+                        datasets: [{
+                            label: 'Bugs by Severity',
+                            data: [0, 0, 0],
+                            backgroundColor: [
+                                '#721c24',
+                                '#856404',
+                                '#155724'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                
+                // Initial chart update
+                updateCharts();
+            }
+            
+            function updateCharts() {
+                if (!window.testCaseChart || !window.bugChart) return;
+                
+                // Update Test Case Chart
+                const passed = testCases.filter(tc => tc.status === 'passed').length;
+                const failed = testCases.filter(tc => tc.status === 'failed').length;
+                const pending = testCases.filter(tc => tc.status === 'pending').length;
+                
+                window.testCaseChart.data.datasets[0].data = [passed, failed, pending];
+                window.testCaseChart.update();
+                
+                // Update Bug Chart
+                const critical = bugs.filter(b => b.severity === 'critical').length;
+                const major = bugs.filter(b => b.severity === 'major').length;
+                const minor = bugs.filter(b => b.severity === 'minor').length;
+                
+                window.bugChart.data.datasets[0].data = [critical, major, minor];
+                window.bugChart.update();
+            }
+            
+            // Utility Functions
+            function generateId() {
+                return 'tc-' + Math.random().toString(36).substr(2, 9);
+            }
+        });
+    </script>
+</body>
+</html>
