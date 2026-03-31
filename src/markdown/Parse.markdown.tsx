@@ -1,9 +1,13 @@
-"use client";
-
 import React from "react";
 import { CodeBlock } from "./Code.block";
 import { renderInline } from "./Render.inline";
-import { HeadingBlock, BlockquoteBlock, TableBlock, ListBlock, DetailsBlock } from "./Blocks";
+import {
+  HeadingBlock,
+  BlockquoteBlock,
+  TableBlock,
+  ListBlock,
+  DetailsBlock,
+} from "./Blocks";
 import { slugify } from "./utils";
 
 export function parseMarkdown(markdown: string): React.ReactNode[] {
@@ -49,7 +53,13 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
         i++;
       }
       i++;
-      nodes.push(<DetailsBlock key={nk()} summary={summaryText} content={contentLines.join("\n")} />);
+      nodes.push(
+        <DetailsBlock
+          key={nk()}
+          summary={summaryText}
+          content={contentLines.join("\n")}
+        />,
+      );
       continue;
     }
 
@@ -64,12 +74,19 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
         i++;
       }
       i++;
-      nodes.push(<CodeBlock key={nk()} code={codeLines.join("\n")} language={lang} />);
+      nodes.push(
+        <CodeBlock key={nk()} code={codeLines.join("\n")} language={lang} />,
+      );
       continue;
     }
 
     if (/^(\s*[-*_]){3,}\s*$/.test(line)) {
-      nodes.push(<hr key={nk()} className="my-6 border-none h-px bg-gray-300 dark:bg-slate-700" />);
+      nodes.push(
+        <hr
+          key={nk()}
+          className="my-6 border-none h-px bg-gray-300 dark:bg-slate-700"
+        />,
+      );
       i++;
       continue;
     }
@@ -91,7 +108,11 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
         i += 2;
         continue;
       }
-      if (/^-{3,}\s*$/.test(lines[i + 1]) && line.trim() && !/^\s*[-*+]/.test(line)) {
+      if (
+        /^-{3,}\s*$/.test(lines[i + 1]) &&
+        line.trim() &&
+        !/^\s*[-*+]/.test(line)
+      ) {
         const id = slugify(line.replace(/[*_`]/g, ""));
         nodes.push(<HeadingBlock key={nk()} level={2} text={line} id={id} />);
         i += 2;
@@ -101,7 +122,10 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
 
     if (line.startsWith(">")) {
       const quoteLines: string[] = [];
-      while (i < lines.length && (lines[i].startsWith(">") || lines[i].trim() === "")) {
+      while (
+        i < lines.length &&
+        (lines[i].startsWith(">") || lines[i].trim() === "")
+      ) {
         if (lines[i].startsWith(">")) quoteLines.push(lines[i]);
         else if (quoteLines.length > 0) quoteLines.push("");
         i++;
@@ -111,7 +135,11 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
       continue;
     }
 
-    if (line.includes("|") && i + 1 < lines.length && /^\|?[\s:|-]+\|/.test(lines[i + 1])) {
+    if (
+      line.includes("|") &&
+      i + 1 < lines.length &&
+      /^\|?[\s:|-]+\|/.test(lines[i + 1])
+    ) {
       const tableLines: string[] = [line];
       i++;
       while (i < lines.length && lines[i].includes("|")) {
@@ -126,7 +154,9 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
       const listLines: string[] = [];
       while (
         i < lines.length &&
-        (/^(\s*)[-*+]\s/.test(lines[i]) || /^\s{2,}/.test(lines[i]) || lines[i].trim() === "")
+        (/^(\s*)[-*+]\s/.test(lines[i]) ||
+          /^\s{2,}/.test(lines[i]) ||
+          lines[i].trim() === "")
       ) {
         if (lines[i].trim() !== "" || listLines.length > 0) {
           listLines.push(lines[i]);
@@ -141,7 +171,9 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
       const listLines: string[] = [];
       while (
         i < lines.length &&
-        (/^\s*\d+\.\s/.test(lines[i]) || /^\s{3,}/.test(lines[i]) || lines[i].trim() === "")
+        (/^\s*\d+\.\s/.test(lines[i]) ||
+          /^\s{3,}/.test(lines[i]) ||
+          lines[i].trim() === "")
       ) {
         if (lines[i].trim() !== "" || listLines.length > 0) {
           listLines.push(lines[i]);
@@ -162,9 +194,14 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
       }
       nodes.push(
         <dl key={nk()} className="my-3">
-          <dt className="font-semibold text-stone-800 dark:text-slate-100">{renderInline(term)}</dt>
+          <dt className="font-semibold text-stone-800 dark:text-slate-100">
+            {renderInline(term)}
+          </dt>
           {defs.map((d, di) => (
-            <dd key={di} className="ml-4 text-stone-600 dark:text-slate-400 before:content-['\u2b33_']">
+            <dd
+              key={di}
+              className="ml-4 text-stone-600 dark:text-slate-400 before:content-['\u2b33_']"
+            >
               {renderInline(d)}
             </dd>
           ))}
@@ -198,10 +235,13 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
     }
 
     if (paraLines.length > 0) {
-      const paraText = paraLines.join("\n").replace(/  \n/g, "\n");
+      const paraText = paraLines.join("\n").replace(/ {2}\n/g, "\n");
       const segments = paraText.split(/\n/);
       nodes.push(
-        <p key={nk()} className="my-2 leading-7 text-stone-800 dark:text-slate-100">
+        <p
+          key={nk()}
+          className="my-2 leading-7 text-stone-800 dark:text-slate-100"
+        >
           {segments.map((seg, si) => (
             <React.Fragment key={si}>
               {renderInline(seg)}
@@ -215,7 +255,10 @@ export function parseMarkdown(markdown: string): React.ReactNode[] {
 
   if (Object.keys(footnotes).length > 0) {
     nodes.push(
-      <div key={nk()} className="mt-8 pt-4 border-t border-gray-300 dark:border-slate-700">
+      <div
+        key={nk()}
+        className="mt-8 pt-4 border-t border-gray-300 dark:border-slate-700"
+      >
         <p className="text-xs font-medium text-stone-400 dark:text-stone-500 mb-2 uppercase tracking-wider">
           Footnotes
         </p>

@@ -1,11 +1,9 @@
-"use client";
-
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check } from "lucide-react";
 import { getLangIcon } from "./Lang.icons";
 import { syntaxHighlight } from "./utils";
-import { CodeBlockProps } from "./types";
+import { type CodeBlockProps } from "./types";
 
 function decodeHtmlEntities(str: string): string {
   return str

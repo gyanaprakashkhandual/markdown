@@ -1,8 +1,6 @@
-"use client";
-
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { slugify } from "./utils";
-import { TocItem } from "./types";
+import { type TocItem } from "./types";
 
 export function TableOfContents({ content }: { content: string }) {
   const items: TocItem[] = useMemo(() => {

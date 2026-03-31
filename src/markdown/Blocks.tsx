@@ -5,10 +5,18 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Hash, ChevronRight, Check } from "lucide-react";
 import { renderInline } from "./Render.inline";
-import { ListItem } from "./types";
-import { JSX } from "react/jsx-dev-runtime";
+import { type ListItem } from "./types";
+import { type JSX } from "react/jsx-dev-runtime";
 
-export function HeadingBlock({ level, text, id }: { level: number; text: string; id: string }) {
+export function HeadingBlock({
+  level,
+  text,
+  id,
+}: {
+  level: number;
+  text: string;
+  id: string;
+}) {
   const [hovered, setHovered] = useState(false);
 
   const sizeMap: Record<number, string> = {
@@ -51,13 +59,34 @@ export function BlockquoteBlock({ content }: { content: string }) {
   const { parseMarkdown } = require("./Parse.markdown");
   const firstLine = content.split("\n")[0];
   const calloutTypes: Record<string, { bg: string; border: string }> = {
-    "💡": { bg: "bg-yellow-100 dark:bg-yellow-950", border: "border-yellow-300 dark:border-yellow-900" },
-    "⚠️": { bg: "bg-orange-100 dark:bg-orange-950", border: "border-orange-300 dark:border-orange-900" },
-    "❌": { bg: "bg-red-100 dark:bg-red-950", border: "border-red-300 dark:border-red-900" },
-    "✅": { bg: "bg-green-100 dark:bg-green-950", border: "border-green-300 dark:border-green-900" },
-    "📌": { bg: "bg-blue-100 dark:bg-blue-950", border: "border-blue-300 dark:border-blue-900" },
-    "🔥": { bg: "bg-orange-100 dark:bg-orange-950", border: "border-orange-400 dark:border-orange-900" },
-    "ℹ️": { bg: "bg-blue-100 dark:bg-blue-950", border: "border-blue-300 dark:border-blue-900" },
+    "💡": {
+      bg: "bg-yellow-100 dark:bg-yellow-950",
+      border: "border-yellow-300 dark:border-yellow-900",
+    },
+    "⚠️": {
+      bg: "bg-orange-100 dark:bg-orange-950",
+      border: "border-orange-300 dark:border-orange-900",
+    },
+    "❌": {
+      bg: "bg-red-100 dark:bg-red-950",
+      border: "border-red-300 dark:border-red-900",
+    },
+    "✅": {
+      bg: "bg-green-100 dark:bg-green-950",
+      border: "border-green-300 dark:border-green-900",
+    },
+    "📌": {
+      bg: "bg-blue-100 dark:bg-blue-950",
+      border: "border-blue-300 dark:border-blue-900",
+    },
+    "🔥": {
+      bg: "bg-orange-100 dark:bg-orange-950",
+      border: "border-orange-400 dark:border-orange-900",
+    },
+    ℹ️: {
+      bg: "bg-blue-100 dark:bg-blue-950",
+      border: "border-blue-300 dark:border-blue-900",
+    },
   };
 
   let callout: { bg: string; border: string } | null = null;
@@ -70,7 +99,9 @@ export function BlockquoteBlock({ content }: { content: string }) {
 
   if (callout) {
     return (
-      <div className={`my-3 px-4 py-3 rounded-lg border ${callout.bg} ${callout.border} text-stone-800 dark:text-slate-100`}>
+      <div
+        className={`my-3 px-4 py-3 rounded-lg border ${callout.bg} ${callout.border} text-stone-800 dark:text-slate-100`}
+      >
         {parseMarkdown(content)}
       </div>
     );
@@ -85,9 +116,14 @@ export function BlockquoteBlock({ content }: { content: string }) {
 
 export function TableBlock({ lines }: { lines: string[] }) {
   const parseRow = (line: string): string[] =>
-    line.replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+    line
+      .replace(/^\||\|$/g, "")
+      .split("|")
+      .map((c) => c.trim());
 
-  const parseAlignments = (line: string): ("left" | "center" | "right" | "none")[] =>
+  const parseAlignments = (
+    line: string,
+  ): ("left" | "center" | "right" | "none")[] =>
     parseRow(line).map((cell) => {
       if (/^:-+:$/.test(cell)) return "center";
       if (/^-+:$/.test(cell)) return "right";
@@ -113,7 +149,10 @@ export function TableBlock({ lines }: { lines: string[] }) {
         <thead>
           <tr className="bg-gray-100 dark:bg-slate-800">
             {headers.map((h, hi) => (
-              <th key={hi} className={`px-4 py-2.5 font-semibold text-stone-800 dark:text-slate-100 border-b border-gray-300 dark:border-slate-700 ${alignClass(alignments[hi])}`}>
+              <th
+                key={hi}
+                className={`px-4 py-2.5 font-semibold text-stone-800 dark:text-slate-100 border-b border-gray-300 dark:border-slate-700 ${alignClass(alignments[hi])}`}
+              >
                 {renderInline(h)}
               </th>
             ))}
@@ -121,9 +160,15 @@ export function TableBlock({ lines }: { lines: string[] }) {
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} className={`border-b border-gray-200 dark:border-slate-700 ${ri % 2 === 0 ? "bg-white dark:bg-slate-900/50" : "bg-gray-50 dark:bg-slate-900/80"} hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors`}>
+            <tr
+              key={ri}
+              className={`border-b border-gray-200 dark:border-slate-700 ${ri % 2 === 0 ? "bg-white dark:bg-slate-900/50" : "bg-gray-50 dark:bg-slate-900/80"} hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors`}
+            >
               {headers.map((_, ci) => (
-                <td key={ci} className={`px-4 py-2.5 text-stone-600 dark:text-slate-400 ${alignClass(alignments[ci])}`}>
+                <td
+                  key={ci}
+                  className={`px-4 py-2.5 text-stone-600 dark:text-slate-400 ${alignClass(alignments[ci])}`}
+                >
                   {renderInline(row[ci] ?? "")}
                 </td>
               ))}
@@ -135,7 +180,13 @@ export function TableBlock({ lines }: { lines: string[] }) {
   );
 }
 
-export function ListBlock({ lines, ordered }: { lines: string[]; ordered: boolean }) {
+export function ListBlock({
+  lines,
+  ordered,
+}: {
+  lines: string[];
+  ordered: boolean;
+}) {
   const parseItems = (ls: string[]): ListItem[] => {
     const items: ListItem[] = [];
     const stack: ListItem[] = [];
@@ -159,7 +210,8 @@ export function ListBlock({ lines, ordered }: { lines: string[]; ordered: boolea
       const text = match[3];
       const checked =
         checkStr != null
-          ? checkStr.trim().toLowerCase() === "[x]" || checkStr.trim().toLowerCase() === "[x] "
+          ? checkStr.trim().toLowerCase() === "[x]" ||
+            checkStr.trim().toLowerCase() === "[x] "
             ? true
             : false
           : null;
@@ -182,29 +234,46 @@ export function ListBlock({ lines, ordered }: { lines: string[]; ordered: boolea
     return items;
   };
 
-  const renderItems = (items: ListItem[], ord: boolean, depth = 0): React.ReactNode => {
+  const renderItems = (
+    items: ListItem[],
+    ord: boolean,
+    depth = 0,
+  ): React.ReactNode => {
     const Tag = ord ? "ol" : "ul";
     return (
-      <Tag className={`my-1 space-y-0.5 ${depth === 0 ? "my-3" : "mt-1 ml-5"} ${ord ? "list-decimal list-inside" : ""}`}>
+      <Tag
+        className={`my-1 space-y-0.5 ${depth === 0 ? "my-3" : "mt-1 ml-5"} ${ord ? "list-decimal list-inside" : ""}`}
+      >
         {items.map((item, idx) => {
           const isTask = item.checked !== null;
           return (
             <li
               key={idx}
               className={`flex items-start gap-2 leading-7 text-stone-800 dark:text-slate-100 ${
-                !ord && !isTask ? "before:content-['•'] before:text-stone-400 dark:before:text-stone-500 before:mt-0.5 before:shrink-0" : ""
+                !ord && !isTask
+                  ? "before:content-['•'] before:text-stone-400 dark:before:text-stone-500 before:mt-0.5 before:shrink-0"
+                  : ""
               }`}
             >
               {isTask && (
-                <div className={`mt-1.5 w-4 h-4 rounded shrink-0 flex items-center justify-center border-2 transition-colors ${
-                  item.checked ? "bg-blue-500 border-blue-500" : "border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-950"
-                }`}>
-                  {item.checked && <Check size={10} className="text-white" strokeWidth={3} />}
+                <div
+                  className={`mt-1.5 w-4 h-4 rounded shrink-0 flex items-center justify-center border-2 transition-colors ${
+                    item.checked
+                      ? "bg-blue-500 border-blue-500"
+                      : "border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-950"
+                  }`}
+                >
+                  {item.checked && (
+                    <Check size={10} className="text-white" strokeWidth={3} />
+                  )}
                 </div>
               )}
-              <div className={`flex-1 ${item.checked ? "line-through text-stone-400 dark:text-stone-500" : ""}`}>
+              <div
+                className={`flex-1 ${item.checked ? "line-through text-stone-400 dark:text-stone-500" : ""}`}
+              >
                 <span>{renderInline(item.text)}</span>
-                {item.children.length > 0 && renderItems(item.children, ord, depth + 1)}
+                {item.children.length > 0 &&
+                  renderItems(item.children, ord, depth + 1)}
               </div>
             </li>
           );
@@ -217,7 +286,13 @@ export function ListBlock({ lines, ordered }: { lines: string[]; ordered: boolea
   return <div>{renderItems(items, ordered)}</div>;
 }
 
-export function DetailsBlock({ summary, content }: { summary: string; content: string }) {
+export function DetailsBlock({
+  summary,
+  content,
+}: {
+  summary: string;
+  content: string;
+}) {
   const { parseMarkdown } = require("./Parse.markdown");
   const [open, setOpen] = useState(false);
 
@@ -227,8 +302,14 @@ export function DetailsBlock({ summary, content }: { summary: string; content: s
         onClick={() => setOpen(!open)}
         className="w-full flex items-center gap-2 px-4 py-3 text-left bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
       >
-        <motion.span animate={{ rotate: open ? 90 : 0 }} transition={{ duration: 0.15 }}>
-          <ChevronRight size={14} className="text-stone-400 dark:text-stone-500" />
+        <motion.span
+          animate={{ rotate: open ? 90 : 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          <ChevronRight
+            size={14}
+            className="text-stone-400 dark:text-stone-500"
+          />
         </motion.span>
         <span className="text-sm font-medium text-stone-800 dark:text-slate-100">
           {renderInline(summary)}
