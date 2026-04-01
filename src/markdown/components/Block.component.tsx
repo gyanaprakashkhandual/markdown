@@ -7,7 +7,7 @@ import {
   parseTableRow,
   parseTableAlignments,
 } from "../utils/Block.util";
-import { headingSizeMap } from "../core/Block.core";
+import { headingSizeMap } from "../main/Block.main";
 import { HashIcon, ChevronRightIcon, CheckIcon } from "../icons/Block.icons";
 import { type JSX } from "react/jsx-dev-runtime";
 import "../styles/Block.style.css";
