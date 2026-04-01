@@ -1,0 +1,234 @@
+/* ── Inline code ─────────────────────────────────────────────────────────────
+   Monospace pill with a subtle border — matches `backtick` spans.           */
+
+.ri-code {
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.85em;
+  font-family: ui-monospace, monospace;
+  background-color: #e5e7eb;        /* gray-200  */
+  color: #dc2626;                   /* red-600   */
+  border: 1px solid #d1d5db;        /* gray-300  */
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-code {
+    background-color: #1e293b;      /* slate-800 */
+    color: #f87171;                 /* red-400   */
+    border-color: #334155;          /* slate-700 */
+  }
+}
+
+/* ── Bold ────────────────────────────────────────────────────────────────────
+   **text** and __text__                                                      */
+
+.ri-bold {
+  font-weight: 600;
+  color: #292524;                   /* stone-800 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-bold {
+    color: #f1f5f9;                 /* slate-100 */
+  }
+}
+
+/* ── Italic ──────────────────────────────────────────────────────────────────
+   *text* and _text_                                                          */
+
+.ri-italic {
+  font-style: italic;
+}
+
+/* ── Strikethrough ───────────────────────────────────────────────────────────
+   ~~text~~                                                                   */
+
+.ri-del {
+  text-decoration: line-through;
+  color: #a8a29e;                   /* stone-400 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-del {
+    color: #78716c;                 /* stone-500 */
+  }
+}
+
+/* ── Highlight ───────────────────────────────────────────────────────────────
+   ==text==                                                                   */
+
+.ri-mark {
+  background-color: #fef9c3;        /* yellow-100 */
+  color: #292524;                   /* stone-800  */
+  padding: 0 0.125rem;
+  border-radius: 0.125rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-mark {
+    background-color: #422006;      /* yellow-950 */
+    color: #f1f5f9;                 /* slate-100  */
+  }
+}
+
+/* ── Superscript / Subscript ─────────────────────────────────────────────────
+   ^sup^ and ~sub~                                                            */
+
+.ri-sup,
+.ri-sub {
+  font-size: 0.75rem;
+}
+
+/* ── Keyboard key ────────────────────────────────────────────────────────────
+   <kbd>key</kbd>                                                             */
+
+.ri-kbd {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+  border-radius: 0.375rem;
+  background-color: #f3f4f6;        /* gray-100  */
+  border: 1px solid #d1d5db;        /* gray-300  */
+  border-bottom-width: 2px;
+  color: #292524;                   /* stone-800 */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-kbd {
+    background-color: #1e293b;      /* slate-800 */
+    border-color: #334155;          /* slate-700 */
+    color: #f1f5f9;                 /* slate-100 */
+  }
+}
+
+/* ── Image wrapper ───────────────────────────────────────────────────────────
+   ![alt](src) block — contains the img and optional caption.                */
+
+.ri-img-wrap {
+  display: block;
+  margin: 1rem 0;
+}
+
+.ri-img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;        /* gray-300  */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-img {
+    border-color: #334155;          /* slate-700 */
+  }
+}
+
+.ri-img-caption {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+  color: #a8a29e;                   /* stone-400 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-img-caption {
+    color: #78716c;                 /* stone-500 */
+  }
+}
+
+/* ── Inline link ─────────────────────────────────────────────────────────────
+   [text](href) — external links get an ExternalLink icon via .ri-link-icon  */
+
+.ri-link {
+  color: #2563eb;                   /* blue-600 */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  text-decoration: none;
+}
+
+.ri-link:hover {
+  color: #1d4ed8;                   /* blue-800 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-link {
+    color: #60a5fa;                 /* blue-400 */
+  }
+
+  .ri-link:hover {
+    color: #93c5fd;                 /* blue-300 */
+  }
+}
+
+/* External link icon — hidden until the link is hovered */
+.ri-link-icon {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ri-link:hover .ri-link-icon {
+  opacity: 0.6;
+}
+
+/* ── Reference-style link span ───────────────────────────────────────────────
+   [text][ref] — rendered as a styled span since target is unknown           */
+
+.ri-ref-link {
+  color: #2563eb;                   /* blue-600  */
+  cursor: pointer;
+}
+
+.ri-ref-link:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-ref-link {
+    color: #60a5fa;                 /* blue-400 */
+  }
+}
+
+/* ── Footnote reference ──────────────────────────────────────────────────────
+   [^id] superscript anchor                                                   */
+
+.ri-footnote {
+  font-size: 0.75rem;
+  color: #2563eb;                   /* blue-600 */
+  text-decoration: none;
+}
+
+.ri-footnote:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-footnote {
+    color: #60a5fa;                 /* blue-400 */
+  }
+}
+
+/* ── Bare URL link ───────────────────────────────────────────────────────────
+   Auto-linked https?:// URLs                                                 */
+
+.ri-url {
+  color: #2563eb;                   /* blue-600       */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ri-url {
+    color: #60a5fa;                 /* blue-400 */
+  }
+}
+
+/* Always-visible icon on bare URLs (no hover gate, matching original opacity-60) */
+.ri-url-icon {
+  opacity: 0.6;
+}
