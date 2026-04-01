@@ -1,0 +1,113 @@
+/* ── TOC nav container ───────────────────────────────────────────────────────
+   Fixed to the right side of the viewport, hidden below xl breakpoint.
+   Matches the inline Tailwind: hidden xl:block fixed right-8 top-24        */
+
+.toc-nav {
+  display: none;
+  position: fixed;
+  right: 2rem; /* right-8 */
+  top: 6rem; /* top-24  */
+  width: 14rem; /* w-56    */
+  max-height: 70vh;
+  overflow-y: auto;
+  margin-top: 2.5rem; /* mt-10   */
+}
+
+@media (min-width: 1280px) {
+  /* xl:block */
+  .toc-nav {
+    display: block;
+  }
+}
+
+/* ── Section label ───────────────────────────────────────────────────────────
+   "On this page" heading above the link list.                               */
+
+.toc-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  color: #a8a29e; /* stone-400 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .toc-label {
+    color: #78716c; /* stone-500 */
+  }
+}
+
+/* ── Link list ───────────────────────────────────────────────────────────────
+   Vertical rhythm between items matching space-y-1                          */
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* space-y-1 */
+}
+
+/* ── Individual TOC link ─────────────────────────────────────────────────────
+   Base styles shared by all links regardless of heading level or active state */
+
+.toc-link {
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  color: #a8a29e; /* stone-400 — inactive default */
+}
+
+.toc-link:hover {
+  color: #78716c; /* stone-600 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .toc-link {
+    color: #78716c; /* stone-500 */
+  }
+
+  .toc-link:hover {
+    color: #94a3b8; /* slate-400 */
+  }
+}
+
+/* ── Active link ─────────────────────────────────────────────────────────────
+   Highlighted when its corresponding heading is in the viewport.            */
+
+.toc-link--active {
+  color: #292524; /* stone-800 */
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .toc-link--active {
+    color: #f1f5f9; /* slate-100 */
+  }
+}
+
+/* ── Indent levels ───────────────────────────────────────────────────────────
+   Each heading level gets progressively more left padding.
+   H1 has none, matching the original pl-0 / pl-3 / pl-6 / pl-9 logic.     */
+
+.toc-link--l1 {
+  padding-left: 0;
+}
+.toc-link--l2 {
+  padding-left: 0.75rem;
+} /* pl-3 */
+.toc-link--l3 {
+  padding-left: 1.5rem;
+} /* pl-6 */
+.toc-link--l4,
+.toc-link--l5,
+.toc-link--l6 {
+  padding-left: 2.25rem;
+} /* pl-9 */

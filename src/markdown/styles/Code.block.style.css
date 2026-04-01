@@ -1,0 +1,71 @@
+/* ── CodeBlock mount animation ───────────────────────────────────────────────
+   Fades in and slides up 4px when the block first renders.                   */
+
+.code-block {
+  animation: codeblock-enter 0.2s ease forwards;
+}
+
+@keyframes codeblock-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Copy button scale interactions ─────────────────────────────────────────
+   Scales up slightly on hover and down on active press, matching
+   Framer Motion's whileHover/whileTap behaviour.                             */
+
+.copy-button {
+  transition:
+    transform 0.1s ease,
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.copy-button:hover {
+  transform: scale(1.05);
+}
+
+.copy-button:active {
+  transform: scale(0.95);
+}
+
+/* ── Copy / Copied label crossfade ───────────────────────────────────────────
+   Both labels sit in the same space. The inactive one is hidden via opacity
+   and a slight vertical offset, then swapped instantly on state change.      */
+
+.copy-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  position: absolute;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.copy-label--hidden {
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+
+.copy-label--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Wrapper that gives the absolutely-positioned labels a sizing context */
+.copy-button-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* Wide enough to contain the longest label ("Copied!") without layout shift */
+  min-width: 52px;
+  height: 16px;
+}

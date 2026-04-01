@@ -1,0 +1,45 @@
+/* ── Heading anchor link ─────────────────────────────────────────────────────
+   Hidden by default; fades in and slides right when the heading is hovered.  */
+
+.heading-anchor {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.heading-block:hover .heading-anchor {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Details chevron rotation ────────────────────────────────────────────────
+   Rotates 90° clockwise when the accordion panel is open.                    */
+
+.details-chevron {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+}
+
+.details-chevron--open {
+  transform: rotate(90deg);
+}
+
+/* ── Details content panel ───────────────────────────────────────────────────
+   Expands from zero height to its natural height using max-height + opacity.
+   A large max-height ceiling (9999px) accommodates arbitrary content length. */
+
+.details-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.details-panel--open {
+  max-height: 9999px;
+  opacity: 1;
+}
