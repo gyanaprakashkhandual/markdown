@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { slugify } from "./utils";
-import { type TocItem } from "./Toc.types";
+import { slugify } from "../utils/Table.util";
+import { type TocItem } from "../types/Table.types";
 import "./Toc.component.css";
 
 export function TableOfContents({ content }: { content: string }) {

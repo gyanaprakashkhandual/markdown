@@ -1,0 +1,115 @@
+/* ── Horizontal rule ─────────────────────────────────────────────────────────
+   Rendered for --- / *** / ___ thematic breaks.                             */
+
+.pm-hr {
+  margin: 1.5rem 0;
+  border: none;
+  height: 1px;
+  background-color: #d1d5db; /* gray-300  */
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-hr {
+    background-color: #334155; /* slate-700 */
+  }
+}
+
+/* ── Paragraph ───────────────────────────────────────────────────────────────
+   Default body text block with comfortable line height.                     */
+
+.pm-p {
+  margin: 0.5rem 0;
+  line-height: 1.75rem;
+  color: #292524; /* stone-800 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-p {
+    color: #f1f5f9; /* slate-100 */
+  }
+}
+
+/* ── Definition list ─────────────────────────────────────────────────────────
+   <dl> wrapper, <dt> term, and <dd> definition rows.                        */
+
+.pm-dl {
+  margin: 0.75rem 0;
+}
+
+.pm-dt {
+  font-weight: 600;
+  color: #292524; /* stone-800 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-dt {
+    color: #f1f5f9; /* slate-100 */
+  }
+}
+
+.pm-dd {
+  margin-left: 1rem;
+  color: #57534e; /* stone-600 */
+  line-height: 1.5rem;
+}
+
+/* Arrow prefix matching before:content-['\u2b33_'] */
+.pm-dd::before {
+  content: "⬳ ";
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-dd {
+    color: #94a3b8; /* slate-400 */
+  }
+}
+
+/* ── Footnotes section ───────────────────────────────────────────────────────
+   Rendered at the bottom when footnote definitions are present.             */
+
+.pm-footnotes {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d1d5db; /* gray-300  */
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-footnotes {
+    border-top-color: #334155; /* slate-700 */
+  }
+}
+
+.pm-footnotes-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: #a8a29e; /* stone-400 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-footnotes-label {
+    color: #78716c; /* stone-500 */
+  }
+}
+
+.pm-footnotes-list {
+  font-size: 0.875rem;
+  color: #57534e; /* stone-600 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  list-style: decimal;
+  list-style-position: inside;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pm-footnotes-list {
+    color: #94a3b8; /* slate-400 */
+  }
+}
+
+.pm-footnotes-item {
+  line-height: 1.5rem;
+}

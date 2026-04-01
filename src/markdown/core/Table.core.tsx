@@ -2,7 +2,7 @@
    Barrel file. Import anything TOC-related from here.                        */
 
 /* Component */
-export { TableOfContents } from "./Toc.component";
+export { TableOfContents } from "../components/Table.component";
 
 /* Types */
-export type { TocItem } from "./Toc.types";
+export type { TocItem } from "../types/Table.types";

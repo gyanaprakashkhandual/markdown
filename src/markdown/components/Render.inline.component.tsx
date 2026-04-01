@@ -1,7 +1,7 @@
 import React from "react";
-import { ExternalLinkIcon } from "./Render.icons";
-import { HTML_ENTITIES } from "./Render.util";
-import { type InlinePattern, type EarliestMatch } from "./Render.types";
+import { ExternalLinkIcon } from "../icons/Render.inline.icons";
+import { HTML_ENTITIES } from "../utils/Render.util";
+import { type InlinePattern, type EarliestMatch } from "../types/Render.types";
 import "./Render.css";
 
 export function renderInline(text: string): React.ReactNode[] {
@@ -13,77 +13,117 @@ export function renderInline(text: string): React.ReactNode[] {
      Patterns are tested left-to-right; the earliest match in the remaining
      string wins on each iteration.                                          */
   const patterns: InlinePattern[] = [
-
     /* Inline code — `code` */
     [
       /`([^`]+)`/,
-      (m) => <code key={key++} className="ri-code">{m[1]}</code>,
+      (m) => (
+        <code key={key++} className="ri-code">
+          {m[1]}
+        </code>
+      ),
     ],
 
     /* Bold + italic combined — ***text*** or ___text___ */
     [
       /\*\*\*(.+?)\*\*\*/,
-      (m) => <strong key={key++}><em>{renderInline(m[1])}</em></strong>,
+      (m) => (
+        <strong key={key++}>
+          <em>{renderInline(m[1])}</em>
+        </strong>
+      ),
     ],
 
     /* Bold — **text** */
     [
       /\*\*(.+?)\*\*/,
-      (m) => <strong key={key++} className="ri-bold">{renderInline(m[1])}</strong>,
+      (m) => (
+        <strong key={key++} className="ri-bold">
+          {renderInline(m[1])}
+        </strong>
+      ),
     ],
 
     /* Italic — *text* */
     [
       /\*(.+?)\*/,
-      (m) => <em key={key++} className="ri-italic">{renderInline(m[1])}</em>,
+      (m) => (
+        <em key={key++} className="ri-italic">
+          {renderInline(m[1])}
+        </em>
+      ),
     ],
 
     /* Bold + italic combined — ___text___ */
     [
       /___(.+?)___/,
-      (m) => <strong key={key++}><em>{renderInline(m[1])}</em></strong>,
+      (m) => (
+        <strong key={key++}>
+          <em>{renderInline(m[1])}</em>
+        </strong>
+      ),
     ],
 
     /* Bold — __text__ */
     [
       /__(.+?)__/,
-      (m) => <strong key={key++} className="ri-bold">{renderInline(m[1])}</strong>,
+      (m) => (
+        <strong key={key++} className="ri-bold">
+          {renderInline(m[1])}
+        </strong>
+      ),
     ],
 
     /* Italic — _text_ */
-    [
-      /_(.+?)_/,
-      (m) => <em key={key++}>{renderInline(m[1])}</em>,
-    ],
+    [/_(.+?)_/, (m) => <em key={key++}>{renderInline(m[1])}</em>],
 
     /* Strikethrough — ~~text~~ */
     [
       /~~(.+?)~~/,
-      (m) => <del key={key++} className="ri-del">{renderInline(m[1])}</del>,
+      (m) => (
+        <del key={key++} className="ri-del">
+          {renderInline(m[1])}
+        </del>
+      ),
     ],
 
     /* Highlight — ==text== */
     [
       /==(.+?)==/,
-      (m) => <mark key={key++} className="ri-mark">{m[1]}</mark>,
+      (m) => (
+        <mark key={key++} className="ri-mark">
+          {m[1]}
+        </mark>
+      ),
     ],
 
     /* Superscript — ^text^ */
     [
       /\^(.+?)\^/,
-      (m) => <sup key={key++} className="ri-sup">{m[1]}</sup>,
+      (m) => (
+        <sup key={key++} className="ri-sup">
+          {m[1]}
+        </sup>
+      ),
     ],
 
     /* Subscript — ~text~ */
     [
       /~(.+?)~/,
-      (m) => <sub key={key++} className="ri-sub">{m[1]}</sub>,
+      (m) => (
+        <sub key={key++} className="ri-sub">
+          {m[1]}
+        </sub>
+      ),
     ],
 
     /* Keyboard key — <kbd>key</kbd> */
     [
       /<kbd>(.+?)<\/kbd>/,
-      (m) => <kbd key={key++} className="ri-kbd">{m[1]}</kbd>,
+      (m) => (
+        <kbd key={key++} className="ri-kbd">
+          {m[1]}
+        </kbd>
+      ),
     ],
 
     /* Inline image — ![alt](src) */
@@ -92,9 +132,7 @@ export function renderInline(text: string): React.ReactNode[] {
       (m) => (
         <span key={key++} className="ri-img-wrap">
           <img src={m[2]} alt={m[1]} className="ri-img" />
-          {m[1] && (
-            <span className="ri-img-caption">{m[1]}</span>
-          )}
+          {m[1] && <span className="ri-img-caption">{m[1]}</span>}
         </span>
       ),
     ],
@@ -123,7 +161,9 @@ export function renderInline(text: string): React.ReactNode[] {
     [
       /\[([^\]]+)\]\[([^\]]*)\]/,
       (m) => (
-        <span key={key++} className="ri-ref-link">{m[1]}</span>
+        <span key={key++} className="ri-ref-link">
+          {m[1]}
+        </span>
       ),
     ],
 
@@ -132,7 +172,9 @@ export function renderInline(text: string): React.ReactNode[] {
       /\[\^(\w+)\]/,
       (m) => (
         <sup key={key++}>
-          <a href={`#fn-${m[1]}`} className="ri-footnote">[{m[1]}]</a>
+          <a href={`#fn-${m[1]}`} className="ri-footnote">
+            [{m[1]}]
+          </a>
         </sup>
       ),
     ],

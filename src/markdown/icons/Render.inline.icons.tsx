@@ -1,5 +1,3 @@
-import React from "react";
-
 /* Shared icon props */
 interface IconProps {
   size?: number;
@@ -8,7 +6,11 @@ interface IconProps {
 }
 
 /* ExternalLink icon — arrow pointing out of a box, used beside external hrefs */
-export function ExternalLinkIcon({ size = 11, strokeWidth = 2, className = "" }: IconProps) {
+export function ExternalLinkIcon({
+  size = 11,
+  strokeWidth = 2,
+  className = "",
+}: IconProps) {
   return (
     <svg
       width={size}

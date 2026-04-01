@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getLangIcon } from "../icons/Code.block.icons";
+import { getLangIcon } from "../utils/Lang.icon.util";
 import { syntaxHighlight } from "../utils/Code.block.util";
 import { type CodeBlockProps } from "../types/Code.block.types";
 import { decodeHtmlEntities } from "../utils/Code.block.util";
@@ -33,10 +33,8 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
   return (
     /* code-block class drives the mount fade-in via CSS animation */
     <div className="code-block group my-4 rounded-lg overflow-hidden border border-gray-300 dark:border-slate-700 bg-slate-950 shadow-sm">
-
       {/* ── Header bar — traffic lights, language label, copy button ── */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-700 bg-slate-900/80">
-
         <div className="flex items-center gap-2">
           {/* macOS-style traffic light dots */}
           <div className="flex gap-1.5">
@@ -61,19 +59,22 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
         >
           <span className="copy-button-inner">
             {/* "Copied!" label — visible when copied is true */}
-            <span className={`copy-label text-green-400 ${copied ? "copy-label--visible" : "copy-label--hidden"}`}>
+            <span
+              className={`copy-label text-green-400 ${copied ? "copy-label--visible" : "copy-label--hidden"}`}
+            >
               <CheckIcon size={12} />
               Copied!
             </span>
 
             {/* "Copy" label — visible when copied is false */}
-            <span className={`copy-label ${!copied ? "copy-label--visible" : "copy-label--hidden"}`}>
+            <span
+              className={`copy-label ${!copied ? "copy-label--visible" : "copy-label--hidden"}`}
+            >
               <CopyIcon size={12} />
               Copy
             </span>
           </span>
         </button>
-
       </div>
 
       {/* ── Code table — line numbers + syntax-highlighted lines ── */}
@@ -88,14 +89,17 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
                 </td>
                 {/* Syntax-highlighted line content */}
                 <td className="px-4 py-0 font-mono text-[13px] leading-6 text-slate-200 whitespace-pre">
-                  <span dangerouslySetInnerHTML={{ __html: syntaxHighlight(line, lang) }} />
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: syntaxHighlight(line, lang),
+                    }}
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
