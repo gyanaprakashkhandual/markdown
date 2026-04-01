@@ -25,7 +25,7 @@ export {
 export type { ColumnAlignment } from "../utils/Block.util";
 
 /* Heading size map */
-export { headingSizeMap } from "../core/Block.core";
+export { headingSizeMap } from "../core/Block";
 
 /* Icons */
 export { HashIcon, ChevronRightIcon, CheckIcon } from "../icons/Block.icons";

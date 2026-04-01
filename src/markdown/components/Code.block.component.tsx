@@ -4,7 +4,7 @@ import { syntaxHighlight } from "../utils/Code.block.util";
 import { type CodeBlockProps } from "../types/Code.block.types";
 import { decodeHtmlEntities } from "../utils/Code.block.util";
 import { CopyIcon, CheckIcon } from "../icons/Code.block.icons";
-import "./CodeBlock.component.css";
+import "../styles/Code.block.style.css";
 
 export function CodeBlock({ code, language }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);

@@ -1,3 +1,3 @@
-import MarkdownRenderer from "./markdown/MarkdownRender";
+import Markdown from "./markdown/Markdown";
 
-export default MarkdownRenderer;
+export default Markdown;

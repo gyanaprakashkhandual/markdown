@@ -10,7 +10,7 @@ import {
 } from "../core/Block.core";
 import { slugify } from "../utils/Table.util";
 import { type FootnoteMap, type ReferenceLinkMap } from "../types/Parse.types";
-import "./Parse.css";
+import "../styles/Parse.css";
 
 export function parseMarkdown(markdown: string): React.ReactNode[] {
   const lines = markdown.split("\n");

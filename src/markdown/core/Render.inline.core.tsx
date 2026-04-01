@@ -3,7 +3,7 @@
    Barrel file. Import anything inline-renderer related from here.           */
 
 /* Core renderer */
-export { renderInline } from "../core/Render.inline.core";
+export { renderInline } from "../core/Render.inline";
 
 /* Types */
 export type { InlinePattern, EarliestMatch } from "../types/Render.types";

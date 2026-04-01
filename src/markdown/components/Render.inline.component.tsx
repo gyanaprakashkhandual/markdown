@@ -2,7 +2,7 @@ import React from "react";
 import { ExternalLinkIcon } from "../icons/Render.inline.icons";
 import { HTML_ENTITIES } from "../utils/Render.util";
 import { type InlinePattern, type EarliestMatch } from "../types/Render.types";
-import "./Render.css";
+import "../styles/Render.style.css";
 
 export function renderInline(text: string): React.ReactNode[] {
   const result: React.ReactNode[] = [];

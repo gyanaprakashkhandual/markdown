@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { slugify } from "../utils/Table.util";
 import { type TocItem } from "../types/Table.types";
-import "./Toc.component.css";
+import "../styles/Table.style.css";
 
 export function TableOfContents({ content }: { content: string }) {
   /* Parse all H1–H6 headings from raw markdown into TocItem objects */

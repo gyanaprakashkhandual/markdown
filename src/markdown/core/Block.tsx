@@ -1,16 +1,30 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useState } from "react";
-import { renderInline } from "./Render.inline.component";
-import { parseMarkdown } from "./Parse.markdown.component";
-import { type ListItem } from "..";
+import { renderInline } from "../core/Render.inline.core";
+import { parseMarkdown } from "../Markdown";
+import { type ListItem } from "../types/Block.types";
 import {
   alignClass,
   parseTableRow,
   parseTableAlignments,
 } from "../utils/Block.util";
-import { headingSizeMap } from "../core/Block.core";
 import { HashIcon, ChevronRightIcon, CheckIcon } from "../icons/Block.icons";
+import "../styles/Block.component.css";
 import { type JSX } from "react/jsx-dev-runtime";
-import "../styles/Block.style.css";
+
+/* Maps H1–H6 level numbers to Tailwind typography classes.
+   H6 uses a muted colour to de-emphasise the lowest heading tier.          */
+export const headingSizeMap: Record<number, string> = {
+  1: "text-3xl font-bold mt-8 mb-1 tracking-tight",
+  2: "text-2xl font-semibold mt-6 mb-1 tracking-tight",
+  3: "text-xl font-semibold mt-5 mb-1",
+  4: "text-lg font-semibold mt-4 mb-1",
+  5: "text-base font-semibold mt-3 mb-1",
+  6: "text-sm font-semibold mt-3 mb-1 text-stone-400 dark:text-stone-500",
+};
+
+/* ─── HeadingBlock ───────────────────────────────────────────────────────────
+   Renders H1–H6 with a hash anchor link that fades in on hover via CSS.    */
 
 export function HeadingBlock({
   level,
@@ -41,10 +55,9 @@ export function HeadingBlock({
 }
 
 /* ─── BlockquoteBlock ────────────────────────────────────────────────────────
-   Renders either a coloured callout card (when the first line contains a
-   recognised emoji) or a standard left-bordered blockquote.                   */
+   Renders a coloured callout card when the first line contains a recognised
+   emoji, otherwise renders a standard left-bordered blockquote.            */
 
-/* Emoji → background + border colour pairs for callout blocks */
 const calloutTypes: Record<string, { bg: string; border: string }> = {
   "💡": {
     bg: "bg-yellow-100 dark:bg-yellow-950",
@@ -107,7 +120,7 @@ export function BlockquoteBlock({ content }: { content: string }) {
 
 /* ─── TableBlock ─────────────────────────────────────────────────────────────
    Renders a GFM pipe table. Expects raw markdown lines including the
-   separator row so alignment can be derived.                                  */
+   separator row so alignment can be derived.                                */
 
 export function TableBlock({ lines }: { lines: string[] }) {
   if (lines.length < 2) return null;
@@ -245,7 +258,6 @@ export function ListBlock({
                   )}
                 </div>
               )}
-
               <div
                 className={`flex-1 ${item.checked ? "line-through text-stone-400 dark:text-stone-500" : ""}`}
               >
@@ -264,8 +276,7 @@ export function ListBlock({
 }
 
 /* ─── DetailsBlock ───────────────────────────────────────────────────────────
-   Collapsible accordion. The chevron rotates via CSS class toggle and the
-   content panel expands with a CSS max-height transition.                     */
+   Collapsible accordion. Chevron rotates and panel expands via CSS classes. */
 
 export function DetailsBlock({
   summary,
@@ -284,7 +295,7 @@ export function DetailsBlock({
         aria-expanded={open}
         className="w-full flex items-center gap-2 px-4 py-3 text-left bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
       >
-        {/* Chevron rotates 90° when the panel is open via the .chevron-open CSS class */}
+        {/* Chevron rotates 90° when open via .details-chevron--open CSS class */}
         <span
           className={`details-chevron ${open ? "details-chevron--open" : ""}`}
         >
@@ -293,13 +304,12 @@ export function DetailsBlock({
             className="text-stone-400 dark:text-stone-500"
           />
         </span>
-
         <span className="text-sm font-medium text-stone-800 dark:text-slate-100">
           {renderInline(summary)}
         </span>
       </button>
 
-      {/* Content panel — max-height animates between 0 and a large value via CSS */}
+      {/* Content panel — max-height animates between 0 and full via CSS */}
       <div className={`details-panel ${open ? "details-panel--open" : ""}`}>
         <div className="px-4 py-3 text-sm text-stone-800 dark:text-slate-100">
           {parseMarkdown(content)}
