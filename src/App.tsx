@@ -1,10 +1,10 @@
 import Markdown from "./markdown/Markdown";
-import markdownContent from "../README.md?raw";
+import context from './test/Markdown.test.md?raw'
 
 export default function App() {
-  return (
+  return(
     <div>
-      <Markdown content={markdownContent} />
+      <Markdown content={context}/>
     </div>
-  );
+  )
 }
