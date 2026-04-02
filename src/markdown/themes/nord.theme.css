@@ -1,0 +1,60 @@
+[data-theme="nord-frost"] {
+  --bg-primary: #242933;
+  --bg-secondary: #2e3440;
+  --bg-tertiary: #353c4a;
+  --bg-elevated: #2b3140;
+  --bg-overlay: rgba(216, 222, 233, 0.04);
+
+  --text-primary: #eceff4;
+  --text-secondary: #e5e9f0;
+  --text-tertiary: #d8dee9;
+  --text-muted: #616e88;
+  --text-inverted: #2e3440;
+
+  --border-primary: #353c4a;
+  --border-secondary: #434c5e;
+  --border-strong: #4c566a;
+
+  --accent-primary: #88c0d0;
+  --accent-primary-hover: #a3d4e2;
+  --accent-success: #a3be8c;
+  --accent-warning: #ebcb8b;
+  --accent-danger: #bf616a;
+  --accent-info: #81a1c1;
+
+  --callout-tip-bg: #2a3548;
+  --callout-tip-border: #3d5068;
+  --callout-warning-bg: #2f2d20;
+  --callout-warning-border: #4a4530;
+  --callout-error-bg: #2d2020;
+  --callout-error-border: #4a3030;
+  --callout-success-bg: #222d20;
+  --callout-success-border: #354530;
+  --callout-info-bg: #202838;
+  --callout-info-border: #304058;
+
+  --code-bg: #1b2028;
+  --code-header-bg: rgba(22, 26, 33, 0.97);
+  --code-text: #d8dee9;
+  --code-line-number: #434c5e;
+  --code-border: #2e3440;
+  --code-row-hover: rgba(136, 192, 208, 0.06);
+
+  --table-header-bg: #2e3440;
+  --table-row-odd: rgba(36, 41, 51, 0.6);
+  --table-row-even: rgba(46, 52, 64, 0.8);
+  --table-row-hover: #353c4a;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.55), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.65), 0 4px 6px -2px rgba(0, 0, 0, 0.45);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --font-sans: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+  --font-mono: "IBM Plex Mono", "Fira Code", ui-monospace, monospace;
+}

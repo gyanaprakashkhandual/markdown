@@ -1,2 +1,7 @@
 @import "./markdown/themes/dark.theme.css";
-@import "./markdown/themes/light.theme.css"
+@import "./markdown/themes/light.theme.css";
+@import "./markdown/themes/obsidian.theme.css";
+@import "./markdown/themes/green.theme.css";
+@import "./markdown/themes/nord.theme.css";
+@import "./markdown/themes/studio.theme.css";
+@import "./markdown/themes/parchment.theme.css";

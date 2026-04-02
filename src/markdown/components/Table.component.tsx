@@ -6,17 +6,36 @@ import {
   MoonIcon,
   SystemIcon,
   PurpleIcon,
+  TerminalGreenIcon,
+  ObsidianInkIcon,
+  NordFrostIcon,
+  ParchmentIcon,
+  LinenStudioIcon,
 } from "../icons/Theme.icons";
 import "../styles/Table.style.css";
 import "../styles/theme.switcher.css";
 
-type Theme = "light" | "dark" | "system" | "purple";
+type Theme =
+  | "light"
+  | "dark"
+  | "system"
+  | "purple"
+  | "studio"
+  | "nord"
+  | "parchment"
+  | "ink"
+  | "green";
 
 const THEMES: { id: Theme; label: string; icon: React.ReactNode }[] = [
   { id: "light", label: "Light", icon: <SunIcon size={13} /> },
   { id: "dark", label: "Dark", icon: <MoonIcon size={13} /> },
   { id: "system", label: "System", icon: <SystemIcon size={13} /> },
   { id: "purple", label: "Purple", icon: <PurpleIcon size={13} /> },
+  { id: "studio", label: "Studio", icon: <LinenStudioIcon size={13} /> },
+  { id: "nord", label: "Nord", icon: <NordFrostIcon size={13} /> },
+  { id: "parchment", label: "Parchment", icon: <ParchmentIcon size={13} /> },
+  { id: "ink", label: "Ink", icon: <ObsidianInkIcon size={13} /> },
+  { id: "green", label: "Green", icon: <TerminalGreenIcon size={13} /> },
 ];
 
 function ThemeSwitcher() {
