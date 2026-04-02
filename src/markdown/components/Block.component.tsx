@@ -26,12 +26,11 @@ export function HeadingBlock({
   return (
     <Tag
       id={id}
-      className={`heading-block group relative flex items-center gap-2 text-stone-800 dark:text-slate-100 ${headingSizeMap[level]}`}
+      className={`heading-block ${headingSizeMap[level]}`}
     >
-      {/* Anchor link — visibility controlled by .heading-block:hover .heading-anchor in CSS */}
       <a
         href={`#${id}`}
-        className="heading-anchor absolute -left-6 text-stone-400 dark:text-stone-500 hover:text-stone-800 dark:hover:text-slate-100 transition-colors"
+        className="heading-anchor"
       >
         <HashIcon size={14} />
       </a>
@@ -40,11 +39,6 @@ export function HeadingBlock({
   );
 }
 
-/* ─── BlockquoteBlock ────────────────────────────────────────────────────────
-   Renders either a coloured callout card (when the first line contains a
-   recognised emoji) or a standard left-bordered blockquote.                   */
-
-/* Emoji → background + border colour pairs for callout blocks */
 const calloutTypes: Record<string, { bg: string; border: string }> = {
   "💡": {
     bg: "bg-yellow-100 dark:bg-yellow-950",
@@ -79,7 +73,6 @@ const calloutTypes: Record<string, { bg: string; border: string }> = {
 export function BlockquoteBlock({ content }: { content: string }) {
   const firstLine = content.split("\n")[0];
 
-  /* Find a matching callout emoji in the first line */
   let callout: { bg: string; border: string } | null = null;
   for (const [emoji, styles] of Object.entries(calloutTypes)) {
     if (firstLine.includes(emoji)) {
@@ -91,7 +84,7 @@ export function BlockquoteBlock({ content }: { content: string }) {
   if (callout) {
     return (
       <div
-        className={`my-3 px-4 py-3 rounded-lg border ${callout.bg} ${callout.border} text-stone-800 dark:text-slate-100`}
+        className={`${callout.bg} ${callout.border}`}
       >
         {parseMarkdown(content)}
       </div>
@@ -99,15 +92,11 @@ export function BlockquoteBlock({ content }: { content: string }) {
   }
 
   return (
-    <blockquote className="my-3 pl-4 border-l-[3px] border-stone-300 dark:border-slate-700 text-stone-600 dark:text-slate-400">
+    <blockquote>
       {parseMarkdown(content)}
     </blockquote>
   );
 }
-
-/* ─── TableBlock ─────────────────────────────────────────────────────────────
-   Renders a GFM pipe table. Expects raw markdown lines including the
-   separator row so alignment can be derived.                                  */
 
 export function TableBlock({ lines }: { lines: string[] }) {
   if (lines.length < 2) return null;
@@ -117,14 +106,14 @@ export function TableBlock({ lines }: { lines: string[] }) {
   const rows = lines.slice(2).map(parseTableRow);
 
   return (
-    <div className="my-4 overflow-x-auto rounded-lg border border-gray-300 dark:border-slate-700">
-      <table className="w-full text-sm border-collapse">
+    <div>
+      <table>
         <thead>
-          <tr className="bg-gray-100 dark:bg-slate-800">
+          <tr>
             {headers.map((header, colIdx) => (
               <th
                 key={colIdx}
-                className={`px-4 py-2.5 font-semibold text-stone-800 dark:text-slate-100 border-b border-gray-300 dark:border-slate-700 ${alignClass(alignments[colIdx])}`}
+                className={alignClass(alignments[colIdx])}
               >
                 {renderInline(header)}
               </th>
@@ -133,14 +122,11 @@ export function TableBlock({ lines }: { lines: string[] }) {
         </thead>
         <tbody>
           {rows.map((row, rowIdx) => (
-            <tr
-              key={rowIdx}
-              className={`border-b border-gray-200 dark:border-slate-700 ${rowIdx % 2 === 0 ? "bg-white dark:bg-slate-900/50" : "bg-gray-50 dark:bg-slate-900/80"} hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors`}
-            >
+            <tr key={rowIdx}>
               {headers.map((_, colIdx) => (
                 <td
                   key={colIdx}
-                  className={`px-4 py-2.5 text-stone-600 dark:text-slate-400 ${alignClass(alignments[colIdx])}`}
+                  className={alignClass(alignments[colIdx])}
                 >
                   {renderInline(row[colIdx] ?? "")}
                 </td>
@@ -153,9 +139,6 @@ export function TableBlock({ lines }: { lines: string[] }) {
   );
 }
 
-/* ─── ListBlock ──────────────────────────────────────────────────────────────
-   Parses and renders ordered, unordered, and task lists with arbitrary nesting. */
-
 export function ListBlock({
   lines,
   ordered,
@@ -163,7 +146,6 @@ export function ListBlock({
   lines: string[];
   ordered: boolean;
 }) {
-  /* Converts flat lines into a nested ListItem tree using an indent-tracking stack */
   function parseItems(ls: string[]): ListItem[] {
     const items: ListItem[] = [];
     const stack: ListItem[] = [];
@@ -175,7 +157,6 @@ export function ListBlock({
       const orderedMatch = line.match(/^(\s*)\d+\.\s+(\[[ xX]\]\s+)?(.*)$/);
       const match = unorderedMatch || orderedMatch;
 
-      /* Continuation line — append text to the most recent item */
       if (!match) {
         if (stack.length > 0) stack[stack.length - 1].text += " " + line.trim();
         continue;
@@ -185,7 +166,6 @@ export function ListBlock({
       const checkStr = match[2];
       const text = match[3];
 
-      /* Determine checked state: null = not a task item */
       const checked: boolean | null =
         checkStr != null
           ? checkStr.trim().toLowerCase() === "[x]" ||
@@ -196,7 +176,6 @@ export function ListBlock({
 
       const item: ListItem = { depth, text, checked, children: [] };
 
-      /* Pop stack until we find the correct parent depth */
       while (stack.length > 0 && stack[stack.length - 1].depth >= depth) {
         stack.pop();
       }
@@ -213,7 +192,6 @@ export function ListBlock({
     return items;
   }
 
-  /* Recursively renders a ListItem tree into <ul>/<ol> elements */
   function renderItems(
     items: ListItem[],
     ord: boolean,
@@ -221,34 +199,23 @@ export function ListBlock({
   ): React.ReactNode {
     const Tag = ord ? "ol" : "ul";
     return (
-      <Tag
-        className={`my-1 space-y-0.5 ${depth === 0 ? "my-3" : "mt-1 ml-5"} ${ord ? "list-decimal list-inside" : ""}`}
-      >
+      <Tag>
         {items.map((item, idx) => {
           const isTask = item.checked !== null;
           return (
-            <li
-              key={idx}
-              className={`flex items-start gap-2 leading-7 text-stone-800 dark:text-slate-100 ${!ord && !isTask ? "before:content-['•'] before:text-stone-400 dark:before:text-stone-500 before:mt-0.5 before:shrink-0" : ""}`}
-            >
-              {/* Checkbox square for task list items */}
+            <li key={idx}>
               {isTask && (
-                <div
-                  className={`mt-1.5 w-4 h-4 rounded shrink-0 flex items-center justify-center border-2 transition-colors ${item.checked ? "bg-blue-500 border-blue-500" : "border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-950"}`}
-                >
+                <div>
                   {item.checked && (
                     <CheckIcon
                       size={10}
                       strokeWidth={3}
-                      className="text-white"
                     />
                   )}
                 </div>
               )}
 
-              <div
-                className={`flex-1 ${item.checked ? "line-through text-stone-400 dark:text-stone-500" : ""}`}
-              >
+              <div>
                 <span>{renderInline(item.text)}</span>
                 {item.children.length > 0 &&
                   renderItems(item.children, ord, depth + 1)}
@@ -263,10 +230,6 @@ export function ListBlock({
   return <div>{renderItems(parseItems(lines), ordered)}</div>;
 }
 
-/* ─── DetailsBlock ───────────────────────────────────────────────────────────
-   Collapsible accordion. The chevron rotates via CSS class toggle and the
-   content panel expands with a CSS max-height transition.                     */
-
 export function DetailsBlock({
   summary,
   content,
@@ -277,31 +240,22 @@ export function DetailsBlock({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="my-3 border border-gray-300 dark:border-slate-700 rounded-lg overflow-hidden">
-      {/* Toggle button — aria-expanded conveys state to assistive technology */}
+    <div>
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-center gap-2 px-4 py-3 text-left bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
       >
-        {/* Chevron rotates 90° when the panel is open via the .chevron-open CSS class */}
-        <span
-          className={`details-chevron ${open ? "details-chevron--open" : ""}`}
-        >
-          <ChevronRightIcon
-            size={14}
-            className="text-stone-400 dark:text-stone-500"
-          />
+        <span className={`details-chevron ${open ? "details-chevron--open" : ""}`}>
+          <ChevronRightIcon size={14} />
         </span>
 
-        <span className="text-sm font-medium text-stone-800 dark:text-slate-100">
+        <span>
           {renderInline(summary)}
         </span>
       </button>
 
-      {/* Content panel — max-height animates between 0 and a large value via CSS */}
       <div className={`details-panel ${open ? "details-panel--open" : ""}`}>
-        <div className="px-4 py-3 text-sm text-stone-800 dark:text-slate-100">
+        <div>
           {parseMarkdown(content)}
         </div>
       </div>

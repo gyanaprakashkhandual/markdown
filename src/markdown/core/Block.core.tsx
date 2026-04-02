@@ -12,15 +12,15 @@ import { HashIcon, ChevronRightIcon, CheckIcon } from "../icons/Block.icons";
 import "../styles/Block.style.css";
 import { type JSX } from "react/jsx-dev-runtime";
 
-/* Maps H1–H6 level numbers to Tailwind typography classes.
-   H6 uses a muted colour to de-emphasise the lowest heading tier.          */
+/* Maps H1–H6 level numbers to plain CSS class names.
+   Each class is defined in Block.style.css.                                 */
 export const headingSizeMap: Record<number, string> = {
-  1: "text-3xl font-bold mt-8 mb-1 tracking-tight",
-  2: "text-2xl font-semibold mt-6 mb-1 tracking-tight",
-  3: "text-xl font-semibold mt-5 mb-1",
-  4: "text-lg font-semibold mt-4 mb-1",
-  5: "text-base font-semibold mt-3 mb-1",
-  6: "text-sm font-semibold mt-3 mb-1 text-stone-400 dark:text-stone-500",
+  1: "heading-h1",
+  2: "heading-h2",
+  3: "heading-h3",
+  4: "heading-h4",
+  5: "heading-h5",
+  6: "heading-h6",
 };
 
 /* ─── HeadingBlock ───────────────────────────────────────────────────────────
@@ -38,15 +38,9 @@ export function HeadingBlock({
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (
-    <Tag
-      id={id}
-      className={`heading-block group relative flex items-center gap-2 text-stone-800 dark:text-slate-100 ${headingSizeMap[level]}`}
-    >
+    <Tag id={id} className={`heading-block ${headingSizeMap[level]}`}>
       {/* Anchor link — visibility controlled by .heading-block:hover .heading-anchor in CSS */}
-      <a
-        href={`#${id}`}
-        className="heading-anchor absolute -left-6 text-stone-400 dark:text-stone-500 hover:text-stone-800 dark:hover:text-slate-100 transition-colors"
-      >
+      <a href={`#${id}`} className="heading-anchor">
         <HashIcon size={14} />
       </a>
       {renderInline(text)}
@@ -58,61 +52,34 @@ export function HeadingBlock({
    Renders a coloured callout card when the first line contains a recognised
    emoji, otherwise renders a standard left-bordered blockquote.            */
 
-const calloutTypes: Record<string, { bg: string; border: string }> = {
-  "💡": {
-    bg: "bg-yellow-100 dark:bg-yellow-950",
-    border: "border-yellow-300 dark:border-yellow-900",
-  },
-  "⚠️": {
-    bg: "bg-orange-100 dark:bg-orange-950",
-    border: "border-orange-300 dark:border-orange-900",
-  },
-  "❌": {
-    bg: "bg-red-100 dark:bg-red-950",
-    border: "border-red-300 dark:border-red-900",
-  },
-  "✅": {
-    bg: "bg-green-100 dark:bg-green-950",
-    border: "border-green-300 dark:border-green-900",
-  },
-  "📌": {
-    bg: "bg-blue-100 dark:bg-blue-950",
-    border: "border-blue-300 dark:border-blue-900",
-  },
-  "🔥": {
-    bg: "bg-orange-100 dark:bg-orange-950",
-    border: "border-orange-400 dark:border-orange-900",
-  },
-  ℹ️: {
-    bg: "bg-blue-100 dark:bg-blue-950",
-    border: "border-blue-300 dark:border-blue-900",
-  },
+const calloutTypes: Record<string, string> = {
+  "💡": "blockquote-callout blockquote-callout--tip",
+  "⚠️": "blockquote-callout blockquote-callout--warning",
+  "❌": "blockquote-callout blockquote-callout--error",
+  "✅": "blockquote-callout blockquote-callout--success",
+  "📌": "blockquote-callout blockquote-callout--pin",
+  "🔥": "blockquote-callout blockquote-callout--fire",
+  ℹ️: "blockquote-callout blockquote-callout--info",
 };
 
 export function BlockquoteBlock({ content }: { content: string }) {
   const firstLine = content.split("\n")[0];
 
   /* Find a matching callout emoji in the first line */
-  let callout: { bg: string; border: string } | null = null;
-  for (const [emoji, styles] of Object.entries(calloutTypes)) {
+  let calloutClass: string | null = null;
+  for (const [emoji, cls] of Object.entries(calloutTypes)) {
     if (firstLine.includes(emoji)) {
-      callout = styles;
+      calloutClass = cls;
       break;
     }
   }
 
-  if (callout) {
-    return (
-      <div
-        className={`my-3 px-4 py-3 rounded-lg border ${callout.bg} ${callout.border} text-stone-800 dark:text-slate-100`}
-      >
-        {parseMarkdown(content)}
-      </div>
-    );
+  if (calloutClass) {
+    return <div className={calloutClass}>{parseMarkdown(content)}</div>;
   }
 
   return (
-    <blockquote className="my-3 pl-4 border-l-[3px] border-stone-300 dark:border-slate-700 text-stone-600 dark:text-slate-400">
+    <blockquote className="blockquote-standard">
       {parseMarkdown(content)}
     </blockquote>
   );
@@ -130,15 +97,12 @@ export function TableBlock({ lines }: { lines: string[] }) {
   const rows = lines.slice(2).map(parseTableRow);
 
   return (
-    <div className="my-4 overflow-x-auto rounded-lg border border-gray-300 dark:border-slate-700">
-      <table className="w-full text-sm border-collapse">
+    <div className="table-wrapper">
+      <table>
         <thead>
-          <tr className="bg-gray-100 dark:bg-slate-800">
+          <tr>
             {headers.map((header, colIdx) => (
-              <th
-                key={colIdx}
-                className={`px-4 py-2.5 font-semibold text-stone-800 dark:text-slate-100 border-b border-gray-300 dark:border-slate-700 ${alignClass(alignments[colIdx])}`}
-              >
+              <th key={colIdx} className={alignClass(alignments[colIdx])}>
                 {renderInline(header)}
               </th>
             ))}
@@ -146,15 +110,9 @@ export function TableBlock({ lines }: { lines: string[] }) {
         </thead>
         <tbody>
           {rows.map((row, rowIdx) => (
-            <tr
-              key={rowIdx}
-              className={`border-b border-gray-200 dark:border-slate-700 ${rowIdx % 2 === 0 ? "bg-white dark:bg-slate-900/50" : "bg-gray-50 dark:bg-slate-900/80"} hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors`}
-            >
+            <tr key={rowIdx}>
               {headers.map((_, colIdx) => (
-                <td
-                  key={colIdx}
-                  className={`px-4 py-2.5 text-stone-600 dark:text-slate-400 ${alignClass(alignments[colIdx])}`}
-                >
+                <td key={colIdx} className={alignClass(alignments[colIdx])}>
                   {renderInline(row[colIdx] ?? "")}
                 </td>
               ))}
@@ -234,32 +192,30 @@ export function ListBlock({
   ): React.ReactNode {
     const Tag = ord ? "ol" : "ul";
     return (
-      <Tag
-        className={`my-1 space-y-0.5 ${depth === 0 ? "my-3" : "mt-1 ml-5"} ${ord ? "list-decimal list-inside" : ""}`}
-      >
+      <Tag className={depth === 0 ? "list-root" : "list-nested"}>
         {items.map((item, idx) => {
           const isTask = item.checked !== null;
           return (
             <li
               key={idx}
-              className={`flex items-start gap-2 leading-7 text-stone-800 dark:text-slate-100 ${!ord && !isTask ? "before:content-['•'] before:text-stone-400 dark:before:text-stone-500 before:mt-0.5 before:shrink-0" : ""}`}
+              className={`list-item${!ord && !isTask ? " list-item--bullet" : ""}`}
             >
               {/* Checkbox square for task list items */}
               {isTask && (
                 <div
-                  className={`mt-1.5 w-4 h-4 rounded shrink-0 flex items-center justify-center border-2 transition-colors ${item.checked ? "bg-blue-500 border-blue-500" : "border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-950"}`}
+                  className={`task-checkbox ${item.checked ? "task-checkbox--checked" : "task-checkbox--unchecked"}`}
                 >
                   {item.checked && (
                     <CheckIcon
                       size={10}
                       strokeWidth={3}
-                      className="text-white"
+                      className="task-checkbox__icon"
                     />
                   )}
                 </div>
               )}
               <div
-                className={`flex-1 ${item.checked ? "line-through text-stone-400 dark:text-stone-500" : ""}`}
+                className={`list-item__content${item.checked ? " list-item__content--checked" : ""}`}
               >
                 <span>{renderInline(item.text)}</span>
                 {item.children.length > 0 &&
@@ -288,32 +244,25 @@ export function DetailsBlock({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="my-3 border border-gray-300 dark:border-slate-700 rounded-lg overflow-hidden">
+    <div className="details-wrapper">
       {/* Toggle button — aria-expanded conveys state to assistive technology */}
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-center gap-2 px-4 py-3 text-left bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+        className="details-toggle"
       >
         {/* Chevron rotates 90° when open via .details-chevron--open CSS class */}
         <span
           className={`details-chevron ${open ? "details-chevron--open" : ""}`}
         >
-          <ChevronRightIcon
-            size={14}
-            className="text-stone-400 dark:text-stone-500"
-          />
+          <ChevronRightIcon size={14} className="details-chevron-icon" />
         </span>
-        <span className="text-sm font-medium text-stone-800 dark:text-slate-100">
-          {renderInline(summary)}
-        </span>
+        <span className="details-summary-text">{renderInline(summary)}</span>
       </button>
 
       {/* Content panel — max-height animates between 0 and full via CSS */}
       <div className={`details-panel ${open ? "details-panel--open" : ""}`}>
-        <div className="px-4 py-3 text-sm text-stone-800 dark:text-slate-100">
-          {parseMarkdown(content)}
-        </div>
+        <div className="details-panel__inner">{parseMarkdown(content)}</div>
       </div>
     </div>
   );

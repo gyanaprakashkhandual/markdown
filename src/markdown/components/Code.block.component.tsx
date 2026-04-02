@@ -32,35 +32,32 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
 
   return (
     /* code-block class drives the mount fade-in via CSS animation */
-    <div className="code-block group my-4 rounded-lg overflow-hidden border border-gray-300 dark:border-slate-700 bg-slate-950 shadow-sm">
+    <div className="code-block">
       {/* ── Header bar — traffic lights, language label, copy button ── */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-700 bg-slate-900/80">
-        <div className="flex items-center gap-2">
+      <div className="code-block__header">
+        <div className="code-block__header-left">
           {/* macOS-style traffic light dots */}
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-yellow-400" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
+          <div className="code-block__traffic-lights">
+            <div className="code-block__dot code-block__dot--red" />
+            <div className="code-block__dot code-block__dot--yellow" />
+            <div className="code-block__dot code-block__dot--green" />
           </div>
 
           {/* Language icon + label */}
-          <div className="flex items-center gap-1.5 ml-2">
+          <div className="code-block__lang">
             {getLangIcon(lang)}
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 font-mono tracking-wide uppercase">
+            <span className="code-block__lang-label">
               {lang || "plain text"}
             </span>
           </div>
         </div>
 
         {/* Copy button — scale on hover/active via CSS, label swaps via opacity */}
-        <button
-          onClick={handleCopy}
-          className="copy-button flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs text-slate-500 dark:text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-all duration-150 font-medium"
-        >
+        <button onClick={handleCopy} className="copy-button">
           <span className="copy-button-inner">
             {/* "Copied!" label — visible when copied is true */}
             <span
-              className={`copy-label text-green-400 ${copied ? "copy-label--visible" : "copy-label--hidden"}`}
+              className={`copy-label copy-label--success ${copied ? "copy-label--visible" : "copy-label--hidden"}`}
             >
               <CheckIcon size={12} />
               Copied!
@@ -78,17 +75,15 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
       </div>
 
       {/* ── Code table — line numbers + syntax-highlighted lines ── */}
-      <div className="overflow-x-auto pt-2 pb-2">
-        <table className="w-full border-collapse text-sm">
+      <div className="code-block__scroll">
+        <table className="code-block__table">
           <tbody>
             {lines.map((line, i) => (
-              <tr key={i} className="hover:bg-slate-800/30">
+              <tr key={i} className="code-block__row">
                 {/* Line number — non-selectable gutter */}
-                <td className="select-none text-right text-slate-600 text-xs px-3 py-0 font-mono w-10 min-w-10 border-r border-slate-700">
-                  {i + 1}
-                </td>
+                <td className="code-block__line-number">{i + 1}</td>
                 {/* Syntax-highlighted line content */}
-                <td className="px-4 py-0 font-mono text-[13px] leading-6 text-slate-200 whitespace-pre">
+                <td className="code-block__line-content">
                   <span
                     dangerouslySetInnerHTML={{
                       __html: syntaxHighlight(line, lang),
