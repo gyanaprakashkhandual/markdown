@@ -1,6 +1,3 @@
-/* ── CodeBlock mount animation ───────────────────────────────────────────────
-   Fades in and slides up 4px when the block first renders.                   */
-
 .code-block {
   animation: codeblock-enter 0.2s ease forwards;
 }
@@ -16,11 +13,82 @@
   }
 }
 
-/* ── Copy button scale interactions ─────────────────────────────────────────
-   Scales up slightly on hover and down on active press, matching
-   Framer Motion's whileHover/whileTap behaviour.                             */
+.code-block {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--code-border);
+  background-color: var(--code-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.code-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--code-border);
+  background-color: var(--code-header-bg);
+}
+
+.code-block__header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-block__traffic-lights {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.code-block__dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+.code-block__dot--red {
+  background-color: var(--accent-danger);
+}
+
+.code-block__dot--yellow {
+  background-color: var(--accent-warning);
+}
+
+.code-block__dot--green {
+  background-color: var(--accent-success);
+}
+
+.code-block__lang {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-left: 0.5rem;
+}
+
+.code-block__lang-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--code-line-number);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
 
 .copy-button {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--code-line-number);
+  background: transparent;
+  border: none;
+  cursor: pointer;
   transition:
     transform 0.1s ease,
     color 0.15s ease,
@@ -28,6 +96,8 @@
 }
 
 .copy-button:hover {
+  color: var(--code-text);
+  background-color: var(--bg-tertiary);
   transform: scale(1.05);
 }
 
@@ -35,9 +105,13 @@
   transform: scale(0.95);
 }
 
-/* ── Copy / Copied label crossfade ───────────────────────────────────────────
-   Both labels sit in the same space. The inactive one is hidden via opacity
-   and a slight vertical offset, then swapped instantly on state change.      */
+.copy-button-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 52px;
+  height: 16px;
+}
 
 .copy-label {
   display: flex;
@@ -60,204 +134,129 @@
   transform: translateY(0);
 }
 
-/* Wrapper that gives the absolutely-positioned labels a sizing context */
-.copy-button-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  /* Wide enough to contain the longest label ("Copied!") without layout shift */
-  min-width: 52px;
-  height: 16px;
-}
-
-
-/* ── Code block wrapper ──────────────────────────────────────────────────────
-   Mount fade-in is driven by the .code-block animation defined here.        */
-
-.code-block {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  border: 1px solid #d1d5db;       /* border-gray-300 */
-  background-color: #020617;       /* bg-slate-950 */
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
-}
-
-@media (prefers-color-scheme: dark) {
-  .code-block {
-    border-color: #334155;         /* dark:border-slate-700 */
-  }
-}
-
-/* ── Header bar ──────────────────────────────────────────────────────────────*/
-
-.code-block__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.625rem 1rem;          /* py-2.5 px-4 */
-  border-bottom: 1px solid #334155; /* border-slate-700 */
-  background-color: rgba(15, 23, 42, 0.8); /* bg-slate-900/80 */
-}
-
-.code-block__header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;                     /* gap-2 */
-}
-
-/* ── Traffic lights ──────────────────────────────────────────────────────────*/
-
-.code-block__traffic-lights {
-  display: flex;
-  gap: 0.375rem;                   /* gap-1.5 */
-}
-
-.code-block__dot {
-  width: 0.75rem;                  /* w-3 */
-  height: 0.75rem;                 /* h-3 */
-  border-radius: 9999px;
-}
-
-.code-block__dot--red {
-  background-color: #ef4444;       /* bg-red-500 */
-}
-
-.code-block__dot--yellow {
-  background-color: #facc15;       /* bg-yellow-400 */
-}
-
-.code-block__dot--green {
-  background-color: #22c55e;       /* bg-green-500 */
-}
-
-/* ── Language label ──────────────────────────────────────────────────────────*/
-
-.code-block__lang {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;                   /* gap-1.5 */
-  margin-left: 0.5rem;             /* ml-2 */
-}
-
-.code-block__lang-label {
-  font-size: 0.75rem;              /* text-xs */
-  font-weight: 500;
-  color: #64748b;                  /* text-slate-500 */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  letter-spacing: 0.05em;          /* tracking-wide */
-  text-transform: uppercase;
-}
-
-@media (prefers-color-scheme: dark) {
-  .code-block__lang-label {
-    color: #94a3b8;                /* dark:text-slate-400 */
-  }
-}
-
-/* ── Copy button ─────────────────────────────────────────────────────────────*/
-
-.copy-button {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;                   /* gap-1.5 */
-  padding: 0.25rem 0.625rem;       /* py-1 px-2.5 */
-  border-radius: 0.375rem;         /* rounded-md */
-  font-size: 0.75rem;              /* text-xs */
-  font-weight: 500;
-  color: #64748b;                  /* text-slate-500 */
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease;
-}
-
-.copy-button:hover {
-  color: #e2e8f0;                  /* hover:text-slate-200 */
-  background-color: #1e293b;       /* hover:bg-slate-800 */
-}
-
-@media (prefers-color-scheme: dark) {
-  .copy-button {
-    color: #94a3b8;                /* dark:text-slate-400 */
-  }
-}
-
-.copy-button-inner {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-/* ── Copy / Copied labels ────────────────────────────────────────────────────
-   Both labels are stacked; opacity + visibility toggle which is shown.      */
-
-.copy-label {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  transition: opacity 0.15s ease;
-}
-
-.copy-label--visible {
-  opacity: 1;
-  position: relative;
-}
-
-.copy-label--hidden {
-  opacity: 0;
-  position: absolute;
-  pointer-events: none;
-}
-
 .copy-label--success {
-  color: #4ade80;                  /* text-green-400 */
+  color: var(--accent-success);
 }
-
-/* ── Code scroll area ────────────────────────────────────────────────────────*/
 
 .code-block__scroll {
   overflow-x: auto;
-  padding-top: 0.5rem;             /* pt-2 */
-  padding-bottom: 0.5rem;          /* pb-2 */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
-
-/* ── Line table ──────────────────────────────────────────────────────────────*/
 
 .code-block__table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;             /* text-sm */
+  font-size: 0.875rem;
 }
 
 .code-block__row:hover {
-  background-color: rgba(30, 41, 59, 0.3); /* hover:bg-slate-800/30 */
+  background-color: var(--code-row-hover);
 }
-
-/* ── Line number gutter ──────────────────────────────────────────────────────*/
 
 .code-block__line-number {
   user-select: none;
   text-align: right;
-  color: #475569;                  /* text-slate-600 */
-  font-size: 0.75rem;              /* text-xs */
-  padding: 0 0.75rem;              /* px-3 py-0 */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  width: 2.5rem;                   /* w-10 */
-  min-width: 2.5rem;               /* min-w-10 */
-  border-right: 1px solid #334155; /* border-slate-700 */
+  color: var(--code-line-number);
+  font-size: 0.75rem;
+  padding: 0 0.75rem;
+  font-family: var(--font-mono);
+  width: 2.5rem;
+  min-width: 2.5rem;
+  border-right: 1px solid var(--code-border);
   vertical-align: top;
 }
 
-/* ── Line content ────────────────────────────────────────────────────────────*/
-
 .code-block__line-content {
-  padding: 0 1rem;                 /* px-4 py-0 */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.8125rem;            /* text-[13px] */
-  line-height: 1.5rem;             /* leading-6 */
-  color: #e2e8f0;                  /* text-slate-200 */
+  padding: 0 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5rem;
+  color: var(--code-text);
   white-space: pre;
   vertical-align: top;
+}
+
+@media (max-width: 640px) {
+  .code-block {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .code-block__header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .code-block__traffic-lights {
+    display: none;
+  }
+
+  .code-block__lang {
+    margin-left: 0;
+  }
+
+  .code-block__lang-label {
+    font-size: 0.7rem;
+  }
+
+  .copy-button {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .copy-button-inner {
+    min-width: 44px;
+    height: 14px;
+  }
+
+  .code-block__line-number {
+    font-size: 0.7rem;
+    padding: 0 0.5rem;
+    width: 2rem;
+    min-width: 2rem;
+  }
+
+  .code-block__line-content {
+    font-size: 0.75rem;
+    padding: 0 0.75rem;
+    line-height: 1.4rem;
+  }
+
+  .code-block__table {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .code-block__header {
+    padding: 0.5625rem 0.875rem;
+  }
+
+  .code-block__line-content {
+    font-size: 0.7875rem;
+    padding: 0 0.875rem;
+  }
+
+  .code-block__line-number {
+    padding: 0 0.625rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .code-block {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .code-block__line-content {
+    font-size: 0.8125rem;
+    line-height: 1.625rem;
+  }
+
+  .code-block__scroll {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
 }

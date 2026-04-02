@@ -1,6 +1,3 @@
-/* ── TOC nav container ───────────────────────────────────────────────────────
-   Fixed to the right side of the viewport, hidden below xl breakpoint.     */
-
 .toc-nav {
   display: none;
   position: fixed;
@@ -18,25 +15,15 @@
   }
 }
 
-/* ── Section label ───────────────────────────────────────────────────────────*/
-
 .toc-label {
   font-size: 0.75rem;
   font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
-  color: #000000;
+  color: var(--text-primary);
 }
-
-@media (prefers-color-scheme: dark) {
-  .toc-label {
-    color: #ffffff;
-  }
-}
-
-/* ── Link list ───────────────────────────────────────────────────────────────*/
 
 .toc-list {
   list-style: none;
@@ -47,12 +34,10 @@
   gap: 0.25rem;
 }
 
-/* ── Individual TOC link ─────────────────────────────────────────────────────*/
-
 .toc-link {
   display: block;
   font-size: 0.8125rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.4rem;
   white-space: nowrap;
@@ -60,38 +45,18 @@
   text-overflow: ellipsis;
   text-decoration: none;
   transition: color 0.15s ease;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .toc-link:hover {
-  color: #111111;
+  color: var(--text-primary);
 }
-
-@media (prefers-color-scheme: dark) {
-  .toc-link {
-    color: #64748b;                /* slate-500 */
-  }
-
-  .toc-link:hover {
-    color: #f1f5f9;                /* slate-100 */
-  }
-}
-
-/* ── Active link ─────────────────────────────────────────────────────────────*/
 
 .toc-link--active {
-  color: #000000;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 0.875rem;
 }
-
-@media (prefers-color-scheme: dark) {
-  .toc-link--active {
-    color: #ffffff;
-  }
-}
-
-/* ── Indent levels ───────────────────────────────────────────────────────────*/
 
 .toc-link--l1 {
   padding-left: 0;
@@ -109,4 +74,15 @@
 .toc-link--l5,
 .toc-link--l6 {
   padding-left: 2.25rem;
+}
+
+.toc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.toc-header .toc-label {
+  margin-bottom: 0;
 }

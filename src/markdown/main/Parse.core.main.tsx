@@ -1,4 +1,3 @@
-/* Types */
 export type {
   FootnoteMap,
   ReferenceLink,

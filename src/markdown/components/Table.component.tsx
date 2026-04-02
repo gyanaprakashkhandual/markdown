@@ -1,10 +1,119 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { slugify } from "../utils/Table.util";
 import { type TocItem } from "../types/Table.types";
+import {
+  SunIcon,
+  MoonIcon,
+  SystemIcon,
+  PurpleIcon,
+} from "../icons/Theme.icons";
 import "../styles/Table.style.css";
+import "../styles/theme.switcher.css";
+
+type Theme = "light" | "dark" | "system" | "purple";
+
+const THEMES: { id: Theme; label: string; icon: React.ReactNode }[] = [
+  { id: "light", label: "Light", icon: <SunIcon size={13} /> },
+  { id: "dark", label: "Dark", icon: <MoonIcon size={13} /> },
+  { id: "system", label: "System", icon: <SystemIcon size={13} /> },
+  { id: "purple", label: "Purple", icon: <PurpleIcon size={13} /> },
+];
+
+function ThemeSwitcher() {
+  const [open, setOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem("theme") as Theme) ?? "system",
+  );
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const resolved =
+      theme === "system"
+        ? window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+        : theme;
+    document.documentElement.setAttribute("data-theme", resolved);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const active = THEMES.find((t) => t.id === theme)!;
+
+  return (
+    <div className="ts-root" ref={ref}>
+      <button
+        className="ts-trigger"
+        onClick={() => setOpen((o) => !o)}
+        aria-label="Switch theme"
+        aria-expanded={open}
+      >
+        <span className="ts-trigger-icon">{active.icon}</span>
+        <span className="ts-trigger-label">{active.label}</span>
+        <span className="ts-trigger-chevron" data-open={open}>
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="2,3.5 5,6.5 8,3.5" />
+          </svg>
+        </span>
+      </button>
+
+      {open && (
+        <div className="ts-menu" role="menu">
+          {THEMES.map((t) => (
+            <button
+              key={t.id}
+              className={`ts-item${theme === t.id ? " ts-item--active" : ""}`}
+              role="menuitem"
+              onClick={() => {
+                setTheme(t.id);
+                setOpen(false);
+              }}
+            >
+              <span className="ts-item-icon">{t.icon}</span>
+              <span className="ts-item-label">{t.label}</span>
+              {theme === t.id && (
+                <span className="ts-item-check">
+                  <svg
+                    width="11"
+                    height="11"
+                    viewBox="0 0 11 11"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="1.5,5.5 4.5,8.5 9.5,2.5" />
+                  </svg>
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function TableOfContents({ content }: { content: string }) {
-  /* Parse all H1–H6 headings from raw markdown into TocItem objects */
   const items: TocItem[] = useMemo(() => {
     return content
       .split("\n")
@@ -22,8 +131,6 @@ export function TableOfContents({ content }: { content: string }) {
 
   const [activeId, setActiveId] = useState("");
 
-  /* Observe each heading element and mark its id as active when it enters
-     the viewport at the defined root margin threshold                       */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -42,10 +149,8 @@ export function TableOfContents({ content }: { content: string }) {
     return () => observer.disconnect();
   }, [items]);
 
-  /* Render nothing when there are no headings to show */
   if (items.length === 0) return null;
 
-  /* Resolves the correct indent class for a given heading level */
   function indentClass(level: number): string {
     if (level === 1) return "toc-link--l1";
     if (level === 2) return "toc-link--l2";
@@ -55,7 +160,10 @@ export function TableOfContents({ content }: { content: string }) {
 
   return (
     <nav className="toc-nav">
-      <p className="toc-label">On this page</p>
+      <div className="toc-header">
+        <p className="toc-label">On this page</p>
+        <ThemeSwitcher />
+      </div>
       <ul className="toc-list">
         {items.map((item) => (
           <li key={item.id}>

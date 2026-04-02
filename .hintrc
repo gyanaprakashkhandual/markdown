@@ -1,5 +1,7 @@
 {
-  "extends": ["development"],
+  "extends": [
+    "development"
+  ],
   "hints": {
     "typescript-config/is-valid": "off",
     "button-type": "off",
@@ -11,6 +13,7 @@
     ],
     "axe/name-role-value": "off",
     "typescript-config/strict": "off",
-    "typescript-config/consistent-casing": "off"
+    "typescript-config/consistent-casing": "off",
+    "compat-api/css": "off"
   }
 }

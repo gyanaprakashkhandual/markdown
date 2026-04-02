@@ -1,36 +1,15 @@
-/* ── Horizontal rule ─────────────────────────────────────────────────────────
-   Rendered for --- / *** / ___ thematic breaks.                             */
-
 .pm-hr {
   margin: 1.5rem 0;
   border: none;
   height: 1px;
-  background-color: #d1d5db; /* gray-300  */
+  background-color: var(--border-secondary);
 }
-
-@media (prefers-color-scheme: dark) {
-  .pm-hr {
-    background-color: #334155; /* slate-700 */
-  }
-}
-
-/* ── Paragraph ───────────────────────────────────────────────────────────────
-   Default body text block with comfortable line height.                     */
 
 .pm-p {
   margin: 0.5rem 0;
   line-height: 1.75rem;
-  color: #292524; /* stone-800 */
+  color: var(--text-secondary);
 }
-
-@media (prefers-color-scheme: dark) {
-  .pm-p {
-    color: #f1f5f9; /* slate-100 */
-  }
-}
-
-/* ── Definition list ─────────────────────────────────────────────────────────
-   <dl> wrapper, <dt> term, and <dd> definition rows.                        */
 
 .pm-dl {
   margin: 0.75rem 0;
@@ -38,45 +17,23 @@
 
 .pm-dt {
   font-weight: 600;
-  color: #292524; /* stone-800 */
-}
-
-@media (prefers-color-scheme: dark) {
-  .pm-dt {
-    color: #f1f5f9; /* slate-100 */
-  }
+  color: var(--text-secondary);
 }
 
 .pm-dd {
   margin-left: 1rem;
-  color: #57534e; /* stone-600 */
+  color: var(--text-tertiary);
   line-height: 1.5rem;
 }
 
-/* Arrow prefix matching before:content-['\u2b33_'] */
 .pm-dd::before {
   content: "⬳ ";
 }
 
-@media (prefers-color-scheme: dark) {
-  .pm-dd {
-    color: #94a3b8; /* slate-400 */
-  }
-}
-
-/* ── Footnotes section ───────────────────────────────────────────────────────
-   Rendered at the bottom when footnote definitions are present.             */
-
 .pm-footnotes {
   margin-top: 2rem;
   padding-top: 1rem;
-  border-top: 1px solid #d1d5db; /* gray-300  */
-}
-
-@media (prefers-color-scheme: dark) {
-  .pm-footnotes {
-    border-top-color: #334155; /* slate-700 */
-  }
+  border-top: 1px solid var(--border-secondary);
 }
 
 .pm-footnotes-label {
@@ -85,18 +42,12 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
-  color: #a8a29e; /* stone-400 */
-}
-
-@media (prefers-color-scheme: dark) {
-  .pm-footnotes-label {
-    color: #78716c; /* stone-500 */
-  }
+  color: var(--text-muted);
 }
 
 .pm-footnotes-list {
   font-size: 0.875rem;
-  color: #57534e; /* stone-600 */
+  color: var(--text-tertiary);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -104,12 +55,60 @@
   list-style-position: inside;
 }
 
-@media (prefers-color-scheme: dark) {
+.pm-footnotes-item {
+  line-height: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .pm-hr {
+    margin: 1rem 0;
+  }
+
+  .pm-p {
+    line-height: 1.6rem;
+    font-size: 0.9375rem;
+  }
+
+  .pm-dd {
+    margin-left: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .pm-footnotes {
+    margin-top: 1.5rem;
+    padding-top: 0.75rem;
+  }
+
   .pm-footnotes-list {
-    color: #94a3b8; /* slate-400 */
+    font-size: 0.8125rem;
   }
 }
 
-.pm-footnotes-item {
-  line-height: 1.5rem;
+@media (min-width: 641px) and (max-width: 1024px) {
+  .pm-hr {
+    margin: 1.25rem 0;
+  }
+
+  .pm-p {
+    line-height: 1.7rem;
+  }
+
+  .pm-footnotes {
+    margin-top: 1.75rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .pm-p {
+    line-height: 1.875rem;
+  }
+
+  .pm-dd {
+    margin-left: 1.25rem;
+  }
+
+  .pm-footnotes {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+  }
 }

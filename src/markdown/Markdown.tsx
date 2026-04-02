@@ -14,7 +14,6 @@ export default function Markdown({
   return (
     <>
       <TableOfContents content={content} />
-      {/* md-article drives both the mount animation and layout via CSS */}
       <article className={`md-article ${className}`}>{nodes}</article>
     </>
   );
