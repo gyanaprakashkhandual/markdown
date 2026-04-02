@@ -1,20 +1,10 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { slugify } from "../utils/Table.util";
 import { type TocItem } from "../types/Table.types";
-import {
-  SunIcon,
-  MoonIcon,
-  SystemIcon,
-  PurpleIcon,
-  TerminalGreenIcon,
-  ObsidianInkIcon,
-  NordFrostIcon,
-  ParchmentIcon,
-  LinenStudioIcon,
-} from "../icons/Theme.icons";
-import "../styles/Table.style.css";
-import "../styles/theme.switcher.css";
 
+import "../styles/Table.style.css";
+import "../styles/Switch.theme.style.css";
+/*
 type Theme =
   | "light"
   | "dark"
@@ -131,7 +121,7 @@ function ThemeSwitcher() {
     </div>
   );
 }
-
+*/
 export function TableOfContents({ content }: { content: string }) {
   const items: TocItem[] = useMemo(() => {
     return content
@@ -181,7 +171,7 @@ export function TableOfContents({ content }: { content: string }) {
     <nav className="toc-nav">
       <div className="toc-header">
         <p className="toc-label">On this page</p>
-        <ThemeSwitcher />
+        {/* <ThemeSwitcher /> */}
       </div>
       <ul className="toc-list">
         {items.map((item) => (

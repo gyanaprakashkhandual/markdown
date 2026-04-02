@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useMemo } from "react";
 import { parseMarkdown } from "./components/Parse.markdown.component";
-import { TableOfContents } from "./components/Table.component";
+import { TableOfContents } from "./components/TableOfTopic.component";
 import { type MarkdownRendererProps } from "./types/Markdown.render.types";
 import "./main.css";
 
@@ -22,7 +22,7 @@ export default function Markdown({
 export { parseMarkdown } from "./components/Parse.markdown.component";
 export { renderInline } from "./components/Render.inline.component";
 export { CodeBlock } from "./components/Code.block.component";
-export { TableOfContents } from "./components/Table.component";
+export { TableOfContents } from "./components/TableOfTopic.component";
 export {
   HeadingBlock,
   BlockquoteBlock,

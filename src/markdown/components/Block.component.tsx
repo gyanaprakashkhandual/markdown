@@ -24,14 +24,8 @@ export function HeadingBlock({
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (
-    <Tag
-      id={id}
-      className={`heading-block ${headingSizeMap[level]}`}
-    >
-      <a
-        href={`#${id}`}
-        className="heading-anchor"
-      >
+    <Tag id={id} className={`heading-block ${headingSizeMap[level]}`}>
+      <a href={`#${id}`} className="heading-anchor">
         <HashIcon size={14} />
       </a>
       {renderInline(text)}
@@ -83,19 +77,13 @@ export function BlockquoteBlock({ content }: { content: string }) {
 
   if (callout) {
     return (
-      <div
-        className={`${callout.bg} ${callout.border}`}
-      >
+      <div className={`${callout.bg} ${callout.border}`}>
         {parseMarkdown(content)}
       </div>
     );
   }
 
-  return (
-    <blockquote>
-      {parseMarkdown(content)}
-    </blockquote>
-  );
+  return <blockquote>{parseMarkdown(content)}</blockquote>;
 }
 
 export function TableBlock({ lines }: { lines: string[] }) {
@@ -111,10 +99,7 @@ export function TableBlock({ lines }: { lines: string[] }) {
         <thead>
           <tr>
             {headers.map((header, colIdx) => (
-              <th
-                key={colIdx}
-                className={alignClass(alignments[colIdx])}
-              >
+              <th key={colIdx} className={alignClass(alignments[colIdx])}>
                 {renderInline(header)}
               </th>
             ))}
@@ -124,10 +109,7 @@ export function TableBlock({ lines }: { lines: string[] }) {
           {rows.map((row, rowIdx) => (
             <tr key={rowIdx}>
               {headers.map((_, colIdx) => (
-                <td
-                  key={colIdx}
-                  className={alignClass(alignments[colIdx])}
-                >
+                <td key={colIdx} className={alignClass(alignments[colIdx])}>
                   {renderInline(row[colIdx] ?? "")}
                 </td>
               ))}
@@ -206,12 +188,7 @@ export function ListBlock({
             <li key={idx}>
               {isTask && (
                 <div>
-                  {item.checked && (
-                    <CheckIcon
-                      size={10}
-                      strokeWidth={3}
-                    />
-                  )}
+                  {item.checked && <CheckIcon size={10} strokeWidth={3} />}
                 </div>
               )}
 
@@ -241,23 +218,18 @@ export function DetailsBlock({
 
   return (
     <div>
-      <button
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-      >
-        <span className={`details-chevron ${open ? "details-chevron--open" : ""}`}>
+      <button onClick={() => setOpen(!open)} aria-expanded={open}>
+        <span
+          className={`details-chevron ${open ? "details-chevron--open" : ""}`}
+        >
           <ChevronRightIcon size={14} />
         </span>
 
-        <span>
-          {renderInline(summary)}
-        </span>
+        <span>{renderInline(summary)}</span>
       </button>
 
       <div className={`details-panel ${open ? "details-panel--open" : ""}`}>
-        <div>
-          {parseMarkdown(content)}
-        </div>
+        <div>{parseMarkdown(content)}</div>
       </div>
     </div>
   );
