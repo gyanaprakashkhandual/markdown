@@ -1,8 +1,8 @@
-# write-markdown
+# Show Markdown
 
 A React library that renders raw Markdown content into a clean, beautiful UI. Drop it into any React or Next.js project and display `.md` files without writing a single line of parsing logic.
 
-**NPM:** [@gyanaprakashkhandual/usemarkdown](https://www.npmjs.com/package/usemarkdown)  
+**NPM:** [showmarkdown](https://www.npmjs.com/package/showmarkdown)  
 **Repository:** [github.com/gyanaprakashkhandual/markdown](https://github.com/gyanaprakashkhandual/markdown)
 
 ---
@@ -10,7 +10,7 @@ A React library that renders raw Markdown content into a clean, beautiful UI. Dr
 ## Installation
 
 ```bash
-npm install @gyanaprakashkhandual/usemarkdown
+npm install showmarkdown
 ```
 
 ---
@@ -18,7 +18,7 @@ npm install @gyanaprakashkhandual/usemarkdown
 ## Usage
 
 ```tsx
-import Markdown from "@gyanaprakashkhandual/usemarkdown";
+import Markdown from "showmarkdown";
 import content from "./README.md?raw";
 
 export default function App() {
@@ -74,3 +74,5 @@ Contributions are welcome. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) befo
 ## License
 
 MIT — see [LICENSE](./LICENSE) for details.
+
+### Build By Gyana prakash Khandual
